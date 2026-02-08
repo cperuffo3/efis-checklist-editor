@@ -1,0 +1,106 @@
+appId: com.electron.starter
+productName: EFIS Checklist Editor
+copyright: Copyright © 2026 Corey Peruffo
+
+# Directories
+directories:
+  output: out
+  buildResources: assets
+
+# Files to include in app bundle
+# electron-vite outputs to dist/, include everything from dist/
+files:
+  - "dist/**/*"
+  - "!dist/win-unpacked"
+  - "package.json"
+
+# ASAR configuration
+asar: true
+asarUnpack:
+  - "**/*.node"
+
+# Extra resources (not in ASAR, placed in resources folder)
+# Note: assets are already bundled in dist/renderer/assets by electron-vite
+extraResources:
+  - from: update-config.json
+    to: update-config.json
+    filter:
+      - "**/*"
+
+# Icon configuration (base path, extensions added per platform)
+icon: assets/icons/icon
+
+# Electron Fuses for security
+electronFuses:
+  runAsNode: false
+  enableCookieEncryption: true
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+
+# Publishing configuration (private GitHub repo)
+publish:
+  provider: github
+  owner: cperuffo3
+  repo: efis-checklist-editor
+  private: false
+  # Don't publish blockmaps to release (only needed locally for updates)
+  publishAutoUpdate: true
+
+# Windows configuration
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: assets/icons/icon.ico
+  artifactName: "${productName}-${version}-Windows-Setup.${ext}"
+
+# NSIS installer configuration
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  perMachine: false
+  installerIcon: assets/icons/icon.ico
+  uninstallerIcon: assets/icons/icon.ico
+  installerHeaderIcon: assets/icons/icon.ico
+  differentialPackage: true
+  # Silent updates (install on app quit without user interaction)
+  allowElevation: true
+  runAfterFinish: false
+  # Update installer runs silently
+  displayLanguageSelector: false
+
+# macOS configuration
+mac:
+  target:
+    - target: zip
+      arch:
+        - x64
+        - arm64
+  icon: assets/icons/icon.icns
+  category: public.app-category.developer-tools
+  artifactName: "${productName}-${version}-macOS-${arch}.${ext}"
+
+# Linux configuration
+linux:
+  target:
+    - deb
+    - rpm
+  icon: assets/icons/icon.png
+  category: Development
+  artifactName: "${productName}-${version}-Linux-${arch}.${ext}"
+
+# DEB-specific options (matches Forge MakerDeb)
+deb:
+  depends:
+    - gconf2
+    - gconf-service
+
+# RPM-specific options (matches Forge MakerRpm)
+rpm:
+  depends:
+    - libXScrnSaver

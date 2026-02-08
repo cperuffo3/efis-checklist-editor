@@ -1,0 +1,11 @@
+# Add files here to ignore them from prettier formatting
+/dist
+/coverage
+/.vite
+README.md
+/src/routeTree.gen.ts
+
+# Lock files should not be formatted
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

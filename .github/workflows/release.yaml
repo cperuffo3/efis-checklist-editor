@@ -1,0 +1,187 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: win
+          - os: macos-latest
+            platform: mac
+          - os: ubuntu-latest
+            platform: linux
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create .env file
+        run: cp .env.example .env
+
+      # For public repos: Use GITHUB_TOKEN (workflow token)
+      # For private repos: Use GH_RELEASE_TOKEN (long-lived PAT)
+      # Create a GitHub PAT with: Contents (Read), Metadata (Read)
+      - name: Create update-config.json
+        run: |
+          echo '{"token":"${{ secrets.GITHUB_TOKEN }}"}'  > update-config.json
+        shell: bash
+
+      - name: Build and Make
+        run: pnpm run make
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.platform }}
+          path: out/**/*
+          retention-days: 1
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-win
+          path: artifacts/win
+
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-mac
+          path: artifacts/mac
+
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-linux
+          path: artifacts/linux
+
+      - name: Remove blockmap files and duplicates
+        run: |
+          echo "Before cleanup:"
+          find artifacts -type f
+
+          # Remove all blockmap variations
+          find artifacts -name "*.blockmap" -type f -delete
+          find artifacts -name "*blockmap" -type f -delete
+          find artifacts -name "*.blockmap.*" -type f -delete
+
+          # Keep only dash-separated filenames, remove dot-separated duplicates
+          find artifacts -name "*.*.*.exe" -type f -delete
+          find artifacts -name "*.*.*.dmg" -type f -delete
+          find artifacts -name "*.*.*.deb" -type f -delete
+          find artifacts -name "*.*.*.rpm" -type f -delete
+
+          echo "After cleanup:"
+          find artifacts -type f
+        shell: bash
+
+      - name: Get version from tag
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREV_TAG" ]; then
+            NOTES=$(git log ${PREV_TAG}..HEAD --pretty=format:"- %s" --no-merges)
+          else
+            NOTES=$(git log --pretty=format:"- %s" --no-merges -20)
+          fi
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Prepare release files
+        run: |
+          # Create a clean directory for release files
+          mkdir -p release-files
+
+          echo "Copying release files..."
+
+          # Windows installers (exclude unpacked, differential support is built into NSIS exe)
+          find artifacts -name "*-Windows-Setup.exe" ! -name "*blockmap*" -type f -exec sh -c 'echo "  -> $(basename "$1")"; cp -v "$1" release-files/' _ {} \;
+
+          # macOS installers (exclude unpacked directories)
+          find artifacts -name "*.dmg" ! -name "*blockmap*" ! -path "*/mac-*/*" -type f -exec sh -c 'echo "  -> $(basename "$1")"; cp -v "$1" release-files/' _ {} \;
+
+          # Linux packages
+          find artifacts -name "*.deb" ! -name "*blockmap*" -type f -exec sh -c 'echo "  -> $(basename "$1")"; cp -v "$1" release-files/' _ {} \;
+          find artifacts -name "*.rpm" ! -name "*blockmap*" -type f -exec sh -c 'echo "  -> $(basename "$1")"; cp -v "$1" release-files/' _ {} \;
+
+          # Update metadata files (root level only)
+          find artifacts -maxdepth 2 -name "latest*.yml" ! -name "*blockmap*" -type f -exec sh -c 'echo "  -> $(basename "$1")"; cp -v "$1" release-files/' _ {} \;
+
+          echo ""
+          echo "Files to be released:"
+          ls -lh release-files/
+
+          # Verify no blockmaps made it through
+          if find release-files -name "*blockmap*" -type f | grep -q .; then
+            echo "ERROR: Blockmap files found in release-files!"
+            find release-files -name "*blockmap*" -type f
+            exit 1
+          fi
+        shell: bash
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ steps.version.outputs.version }}
+          body: |
+            ## What's Changed
+
+            ${{ steps.changelog.outputs.notes }}
+
+            ---
+
+            ## Downloads
+
+            **Windows:** Download `Electron-Starter-*-Windows-Setup.exe`
+            **macOS (Intel):** Download `Electron-Starter-*-macOS-x64.zip`
+            **macOS (Apple Silicon):** Download `Electron-Starter-*-macOS-arm64.zip`
+            **Linux (Debian/Ubuntu):** Download `Electron-Starter-*-Linux-*.deb`
+            **Linux (Fedora/RHEL):** Download `Electron-Starter-*-Linux-*.rpm`
+
+            *Full changelog: CHANGELOG.md*
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+          files: release-files/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
