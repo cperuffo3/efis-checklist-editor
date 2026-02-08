@@ -1,0 +1,3341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EFIS Editor</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+      :root {
+        --bg-base: #0d1117;
+        --bg-surface: #161b22;
+        --bg-elevated: #1c2333;
+        --bg-overlay: #21283b;
+        --bg-hover: #292e3e;
+        --bg-active: #2d3548;
+        --border: #30363d;
+        --border-light: #3a4250;
+        --text-primary: #e6edf3;
+        --text-secondary: #8b949e;
+        --text-muted: #5a6370;
+        --accent: #58a6ff;
+        --accent-dim: #1f3a5f;
+        --accent-hover: #79c0ff;
+        --green: #3fb950;
+        --green-dim: #1a3a2a;
+        --yellow: #d29922;
+        --yellow-dim: #3d2e00;
+        --red: #f85149;
+        --red-dim: #3d1418;
+        --orange: #db6d28;
+        --purple: #a371f7;
+        --cyan: #39d2c0;
+        --titlebar-h: 38px;
+        --toolbar-h: 44px;
+        --statusbar-h: 26px;
+        --sidebar-w: 260px;
+        --radius: 6px;
+        --radius-sm: 4px;
+        --transition: 150ms ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: var(--bg-base);
+        color: var(--text-primary);
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+        font-size: 13px;
+      }
+
+      /* ── TITLE BAR (Electron frameless) ── */
+      .titlebar {
+        height: var(--titlebar-h);
+        background: #010409;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        -webkit-app-region: drag;
+        flex-shrink: 0;
+        border-bottom: 1px solid #1b1f27;
+        gap: 12px;
+      }
+      .titlebar-controls {
+        display: flex;
+        gap: 8px;
+        -webkit-app-region: no-drag;
+      }
+      .titlebar-controls span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: block;
+      }
+      .tc-close {
+        background: #ff5f57;
+      }
+      .tc-min {
+        background: #febc2e;
+      }
+      .tc-max {
+        background: #28c840;
+      }
+      .titlebar-title {
+        flex: 1;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        letter-spacing: 0.02em;
+      }
+      .titlebar-title strong {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      /* ── TOOLBAR ── */
+      .toolbar {
+        height: var(--toolbar-h);
+        background: var(--bg-surface);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .tb-group {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+      .tb-sep {
+        width: 1px;
+        height: 24px;
+        background: var(--border);
+        margin: 0 8px;
+      }
+      .tb-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border: none;
+        background: none;
+        color: var(--text-secondary);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: 12px;
+        font-family: inherit;
+        white-space: nowrap;
+        transition: all var(--transition);
+      }
+      .tb-btn:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+      .tb-btn:active {
+        background: var(--bg-active);
+      }
+      .tb-btn svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+      .tb-btn.primary {
+        background: var(--accent-dim);
+        color: var(--accent);
+        border: 1px solid rgba(88, 166, 255, 0.25);
+      }
+      .tb-btn.primary:hover {
+        background: rgba(88, 166, 255, 0.2);
+        color: var(--accent-hover);
+      }
+      .tb-spacer {
+        flex: 1;
+      }
+
+      /* command palette trigger */
+      .cmd-trigger {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 12px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--text-muted);
+        font-size: 12px;
+        cursor: pointer;
+        min-width: 220px;
+        transition: all var(--transition);
+      }
+      .cmd-trigger:hover {
+        border-color: var(--border-light);
+        color: var(--text-secondary);
+      }
+      .cmd-trigger kbd {
+        margin-left: auto;
+        font-family: "Inter", sans-serif;
+        font-size: 10px;
+        background: var(--bg-overlay);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        padding: 1px 5px;
+        color: var(--text-muted);
+      }
+
+      /* ── MAIN LAYOUT ── */
+      .main {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+      }
+
+      /* ── SIDEBAR ── */
+      .sidebar {
+        width: var(--sidebar-w);
+        background: var(--bg-surface);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+      .sidebar-header {
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar-header h3 {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-secondary);
+      }
+      .sidebar-actions {
+        display: flex;
+        gap: 4px;
+      }
+      .sidebar-actions button {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all var(--transition);
+      }
+      .sidebar-actions button:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+      .sidebar-actions button svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .file-tree {
+        flex: 1;
+        overflow-y: auto;
+        padding: 6px 0;
+      }
+      .file-tree::-webkit-scrollbar {
+        width: 6px;
+      }
+      .file-tree::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .file-tree::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+
+      .ft-file {
+        padding: 6px 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: background var(--transition);
+        font-size: 12px;
+        color: var(--text-secondary);
+        position: relative;
+      }
+      .ft-file:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+      .ft-file.active {
+        background: var(--bg-active);
+        color: var(--text-primary);
+      }
+      .ft-file.active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 4px;
+        bottom: 4px;
+        width: 3px;
+        background: var(--accent);
+        border-radius: 0 2px 2px 0;
+      }
+      .ft-file svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+      .ft-file .ft-badge {
+        margin-left: auto;
+        font-size: 10px;
+        color: var(--text-muted);
+        background: var(--bg-overlay);
+        padding: 1px 6px;
+        border-radius: 8px;
+      }
+      .ft-file .ft-icon {
+        color: var(--accent);
+      }
+      .ft-file .ft-icon-garmin {
+        color: var(--green);
+      }
+      .ft-file .ft-icon-dynon {
+        color: var(--purple);
+      }
+      .ft-file .ft-icon-grt {
+        color: var(--orange);
+      }
+      .ft-file .ft-icon-ff {
+        color: var(--cyan);
+      }
+
+      .sidebar-drop {
+        margin: 8px 12px;
+        padding: 24px;
+        border: 2px dashed var(--border);
+        border-radius: var(--radius);
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 11px;
+        line-height: 1.5;
+        transition: all var(--transition);
+        cursor: pointer;
+      }
+      .sidebar-drop:hover {
+        border-color: var(--accent);
+        color: var(--text-secondary);
+      }
+      .sidebar-drop svg {
+        width: 20px;
+        height: 20px;
+        margin-bottom: 4px;
+        display: block;
+        margin-inline: auto;
+      }
+
+      /* ── CONTENT AREA ── */
+      .content {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+      }
+
+      /* ── CHECKLIST TREE PANEL ── */
+      .tree-panel {
+        width: 280px;
+        background: var(--bg-base);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+      .tree-panel-header {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tree-panel-header .tph-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .tree-panel-header .tph-format {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        background: var(--green-dim);
+        color: var(--green);
+        flex-shrink: 0;
+      }
+      .tree-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 4px 0;
+      }
+      .tree-body::-webkit-scrollbar {
+        width: 6px;
+      }
+      .tree-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .tree-body::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+
+      .tree-group {
+        margin-bottom: 2px;
+      }
+      .tg-header {
+        padding: 7px 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        transition: color var(--transition);
+      }
+      .tg-header:hover {
+        color: var(--text-primary);
+      }
+      .tg-header svg {
+        width: 12px;
+        height: 12px;
+      }
+      .tg-header .tg-count {
+        margin-left: auto;
+        font-weight: 400;
+        color: var(--text-muted);
+        font-size: 10px;
+      }
+
+      .tree-item {
+        padding: 6px 14px 6px 32px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 12px;
+        color: var(--text-secondary);
+        transition: all var(--transition);
+        position: relative;
+      }
+      .tree-item:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+      .tree-item.active {
+        background: var(--accent-dim);
+        color: var(--accent);
+      }
+      .tree-item .ti-icon {
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        flex-shrink: 0;
+        font-size: 10px;
+      }
+      .ti-normal {
+        background: var(--green-dim);
+        color: var(--green);
+      }
+      .ti-emergency {
+        background: var(--red-dim);
+        color: var(--red);
+      }
+      .ti-abnormal {
+        background: var(--yellow-dim);
+        color: var(--yellow);
+      }
+      .tree-item .ti-items {
+        margin-left: auto;
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+      .tree-item .drag-handle {
+        opacity: 0;
+        color: var(--text-muted);
+        cursor: grab;
+        transition: opacity var(--transition);
+      }
+      .tree-item:hover .drag-handle {
+        opacity: 1;
+      }
+
+      /* ── EDITOR PANEL ── */
+      .editor {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: var(--bg-base);
+      }
+      .editor-header {
+        padding: 16px 24px 12px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .eh-info {
+        flex: 1;
+      }
+      .eh-info h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .eh-info h2 .badge {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .badge-normal {
+        background: var(--green-dim);
+        color: var(--green);
+      }
+      .badge-emergency {
+        background: var(--red-dim);
+        color: var(--red);
+      }
+      .eh-breadcrumb {
+        font-size: 11px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .eh-breadcrumb span {
+        color: var(--text-secondary);
+      }
+      .eh-actions {
+        display: flex;
+        gap: 6px;
+      }
+      .eh-actions button {
+        padding: 6px 12px;
+        border: 1px solid var(--border);
+        background: var(--bg-elevated);
+        color: var(--text-secondary);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: 12px;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all var(--transition);
+      }
+      .eh-actions button:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+        border-color: var(--border-light);
+      }
+      .eh-actions button svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* checklist items */
+      .editor-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 0;
+      }
+      .editor-body::-webkit-scrollbar {
+        width: 8px;
+      }
+      .editor-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .editor-body::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+      }
+
+      .cl-item {
+        display: flex;
+        align-items: stretch;
+        margin: 1px 16px;
+        border-radius: var(--radius-sm);
+        transition: background var(--transition);
+        position: relative;
+        min-height: 38px;
+      }
+      .cl-item:hover {
+        background: var(--bg-elevated);
+      }
+      .cl-item.selected {
+        background: var(--accent-dim);
+      }
+
+      /* ── INDENTATION SYSTEM ── */
+      .cl-indent {
+        display: flex;
+        align-items: stretch;
+        flex-shrink: 0;
+      }
+      .cl-indent-guide {
+        width: 20px;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .cl-indent-guide::before {
+        content: "";
+        position: absolute;
+        left: 9px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: var(--border);
+        opacity: 0.5;
+      }
+      /* connector tick for the last child in a group */
+      .cl-indent-guide.has-tick::after {
+        content: "";
+        position: absolute;
+        left: 9px;
+        top: 50%;
+        width: 8px;
+        height: 1px;
+        background: var(--border);
+        opacity: 0.5;
+      }
+      /* hide the line below for last-child */
+      .cl-indent-guide.last-child::before {
+        bottom: 50%;
+      }
+
+      /* Parent row collapse toggle */
+      .cl-collapse {
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 3px;
+        cursor: pointer;
+        color: var(--text-muted);
+        flex-shrink: 0;
+        margin-right: 4px;
+        transition: all var(--transition);
+      }
+      .cl-collapse:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+      .cl-collapse svg {
+        width: 12px;
+        height: 12px;
+        transition: transform 150ms ease;
+      }
+      .cl-collapse.collapsed svg {
+        transform: rotate(-90deg);
+      }
+
+      /* indent-level background tinting for scanability */
+      .cl-item.indent-1 {
+        padding-left: 0;
+      }
+      .cl-item.indent-2 {
+        padding-left: 0;
+      }
+      .cl-item.indent-1 .cl-content,
+      .cl-item.indent-2 .cl-content {
+        font-size: 12.5px;
+      }
+
+      /* Subtle left-border accent for parent items with children */
+      .cl-item.has-children .cl-text {
+        font-weight: 600;
+        font-size: 12.5px;
+        letter-spacing: 0.01em;
+      }
+
+      .cl-drag {
+        width: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        opacity: 0;
+        cursor: grab;
+        flex-shrink: 0;
+        transition: opacity var(--transition);
+      }
+      .cl-item:hover .cl-drag {
+        opacity: 1;
+      }
+      .cl-drag svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      .cl-type {
+        width: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .cl-type-indicator {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .cl-check {
+        background: var(--green);
+      }
+      .cl-challenge {
+        background: var(--accent);
+      }
+      .cl-note {
+        background: var(--text-muted);
+      }
+      .cl-warning-dot {
+        background: var(--yellow);
+      }
+      .cl-caution-dot {
+        background: var(--orange);
+      }
+      .cl-title-dot {
+        width: 14px;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--purple);
+      }
+
+      .cl-content {
+        flex: 1;
+        padding: 8px 8px 8px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .cl-challenge-response {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0;
+        min-width: 0;
+      }
+      .cl-challenge-text {
+        flex: 1;
+        color: var(--text-primary);
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cl-dots {
+        flex: 0 0 auto;
+        color: var(--text-muted);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        padding: 0 4px;
+        letter-spacing: 2px;
+        min-width: 20px;
+      }
+      .cl-response-text {
+        flex: 0 0 auto;
+        max-width: 40%;
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 500;
+        text-align: right;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .cl-text {
+        flex: 1;
+        font-size: 13px;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cl-text.cl-title-text {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        color: var(--purple);
+      }
+      .cl-text.cl-note-text {
+        color: var(--text-secondary);
+        font-style: italic;
+      }
+      .cl-text.cl-warning-text {
+        color: var(--yellow);
+      }
+      .cl-text.cl-caution-text {
+        color: var(--orange);
+      }
+
+      .cl-actions {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding-right: 8px;
+        opacity: 0;
+        transition: opacity var(--transition);
+      }
+      .cl-item:hover .cl-actions {
+        opacity: 1;
+      }
+      .cl-actions button {
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all var(--transition);
+      }
+      .cl-actions button:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+      .cl-actions button svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* Child count badge on parent rows */
+      .cl-child-count {
+        font-size: 10px;
+        color: var(--text-muted);
+        background: var(--bg-overlay);
+        padding: 1px 7px;
+        border-radius: 8px;
+        margin-left: auto;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      /* Collapsed indicator badge */
+      .cl-collapsed-badge {
+        font-size: 9px;
+        color: var(--text-muted);
+        background: var(--bg-overlay);
+        border: 1px solid var(--border);
+        padding: 1px 6px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 500;
+        flex-shrink: 0;
+      }
+
+      /* Depth-differentiated title colors */
+      .cl-item[data-depth="1"] .cl-title-text {
+        font-size: 11px;
+      }
+      .cl-item[data-depth="2"] .cl-text {
+        font-size: 12px;
+      }
+      .cl-item[data-depth="3"] .cl-challenge-text,
+      .cl-item[data-depth="3"] .cl-response-text {
+        font-size: 12px;
+      }
+
+      /* Indent / outdent button in actions */
+      .cl-actions button[title="Indent / Outdent"] {
+        color: var(--accent);
+        opacity: 0.6;
+      }
+      .cl-actions button[title="Indent / Outdent"]:hover {
+        opacity: 1;
+      }
+
+      .cl-add-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 4px 16px;
+        padding: 6px;
+        border: 1px dashed var(--border);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: 12px;
+        gap: 6px;
+        transition: all var(--transition);
+      }
+      .cl-add-row:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-dim);
+      }
+      .cl-add-row svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      /* ── PROPERTIES PANEL (right) ── */
+      .props-panel {
+        width: 280px;
+        background: var(--bg-surface);
+        border-left: 1px solid var(--border);
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .props-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-secondary);
+      }
+      .props-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px 16px;
+      }
+      .props-body::-webkit-scrollbar {
+        width: 6px;
+      }
+      .props-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .props-body::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+
+      .prop-section {
+        margin-bottom: 20px;
+      }
+      .prop-section h4 {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 10px;
+      }
+      .prop-field {
+        margin-bottom: 12px;
+      }
+      .prop-field label {
+        display: block;
+        font-size: 11px;
+        color: var(--text-secondary);
+        margin-bottom: 4px;
+      }
+      .prop-field input,
+      .prop-field select {
+        width: 100%;
+        padding: 6px 10px;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-size: 12px;
+        font-family: inherit;
+        outline: none;
+        transition: border-color var(--transition);
+      }
+      .prop-field input:focus,
+      .prop-field select:focus {
+        border-color: var(--accent);
+      }
+      .prop-field select {
+        cursor: pointer;
+      }
+
+      .prop-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 0;
+      }
+      .prop-toggle span {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+      .toggle-switch {
+        width: 34px;
+        height: 18px;
+        border-radius: 9px;
+        background: var(--border);
+        position: relative;
+        cursor: pointer;
+        transition: background var(--transition);
+      }
+      .toggle-switch.on {
+        background: var(--accent);
+      }
+      .toggle-switch::after {
+        content: "";
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: white;
+        top: 2px;
+        left: 2px;
+        transition: transform var(--transition);
+      }
+      .toggle-switch.on::after {
+        transform: translateX(16px);
+      }
+
+      .format-compat {
+        margin-top: 8px;
+      }
+      .fc-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 0;
+        font-size: 11px;
+      }
+      .fc-row span:first-child {
+        color: var(--text-secondary);
+      }
+      .fc-supported {
+        color: var(--green);
+      }
+      .fc-unsupported {
+        color: var(--text-muted);
+      }
+
+      /* ── STATUS BAR ── */
+      .statusbar {
+        height: var(--statusbar-h);
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        font-size: 11px;
+        color: var(--text-muted);
+        gap: 16px;
+        flex-shrink: 0;
+      }
+      .sb-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .sb-item svg {
+        width: 12px;
+        height: 12px;
+      }
+      .sb-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .sb-spacer {
+        flex: 1;
+      }
+      .sb-item.clickable {
+        cursor: pointer;
+      }
+      .sb-item.clickable:hover {
+        color: var(--text-secondary);
+      }
+
+      /* ── MODAL OVERLAY (for export) ── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        backdrop-filter: blur(4px);
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal {
+        background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        width: 480px;
+        max-height: 80vh;
+        overflow: hidden;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+        animation: modalIn 200ms ease;
+      }
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: scale(0.96) translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      .modal-header {
+        padding: 20px 24px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .modal-header h3 {
+        font-size: 16px;
+        font-weight: 600;
+        flex: 1;
+      }
+      .modal-close {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all var(--transition);
+      }
+      .modal-close:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+      }
+      .modal-body {
+        padding: 0 24px 24px;
+      }
+
+      .export-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .export-option {
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: all var(--transition);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .export-option:hover {
+        border-color: var(--accent);
+        background: var(--accent-dim);
+      }
+      .export-option .eo-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      .export-option .eo-ext {
+        font-size: 11px;
+        color: var(--text-muted);
+        font-family: "JetBrains Mono", monospace;
+      }
+      .export-option .eo-desc {
+        font-size: 11px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      /* ── KEYBOARD SHORTCUTS HINT ── */
+      .shortcuts-hint {
+        position: fixed;
+        bottom: 36px;
+        right: 16px;
+        background: var(--bg-overlay);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 8px 12px;
+        font-size: 11px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        opacity: 0;
+        transition: opacity 300ms ease;
+        pointer-events: none;
+        z-index: 50;
+      }
+      .shortcuts-hint.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .shortcuts-hint kbd {
+        font-family: "Inter", sans-serif;
+        font-size: 10px;
+        background: var(--bg-base);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        padding: 1px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TITLE BAR -->
+    <div class="titlebar">
+      <div class="titlebar-controls">
+        <span class="tc-close"></span>
+        <span class="tc-min"></span>
+        <span class="tc-max"></span>
+      </div>
+      <div class="titlebar-title">
+        <strong>EFIS Editor</strong> — N172SP Checklists
+      </div>
+      <div style="width: 52px"></div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="tb-group">
+        <button
+          class="tb-btn"
+          onclick="document.getElementById('exportModal').classList.add('show')"
+        >
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 5v14M5 12l7-7 7 7" />
+          </svg>
+          Import
+        </button>
+        <button
+          class="tb-btn"
+          onclick="document.getElementById('exportModal').classList.add('show')"
+        >
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 19V5M5 12l7 7 7-7" />
+          </svg>
+          Export
+        </button>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <button class="tb-btn" title="Undo (Ctrl+Z)">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 14L4 9l5-5" />
+            <path d="M20 20v-7a4 4 0 00-4-4H4" />
+          </svg>
+        </button>
+        <button class="tb-btn" title="Redo (Ctrl+Shift+Z)">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M15 14l5-5-5-5" />
+            <path d="M4 20v-7a4 4 0 014-4h12" />
+          </svg>
+        </button>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <button class="tb-btn" title="Add Item (Enter)">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+          Add Item
+        </button>
+        <button class="tb-btn" title="Add Checklist">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+            <path d="M14 2v6h6" />
+            <line x1="12" y1="18" x2="12" y2="12" />
+            <line x1="9" y1="15" x2="15" y2="15" />
+          </svg>
+          Add Checklist
+        </button>
+      </div>
+      <div class="tb-spacer"></div>
+      <div class="cmd-trigger" onclick="this.blur()">
+        <svg
+          width="14"
+          height="14"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" />
+        </svg>
+        Search checklists…
+        <kbd>⌘K</kbd>
+      </div>
+      <div class="tb-spacer"></div>
+      <button class="tb-btn" title="Metadata" onclick="toggleProps()">
+        <svg
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
+          />
+        </svg>
+        Properties
+      </button>
+      <button class="tb-btn primary" title="Export to Garmin G3X">
+        <svg
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <path d="M7 10l5 5 5-5" />
+          <path d="M12 15V3" />
+        </svg>
+        Quick Export
+      </button>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <!-- SIDEBAR: Files -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <h3>Checklist Files</h3>
+          <div class="sidebar-actions">
+            <button title="New file">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="file-tree">
+          <div class="ft-file active">
+            <svg
+              class="ft-icon ft-icon-garmin"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <path d="M14 2v6h6" />
+            </svg>
+            N172SP Checklists
+            <span class="ft-badge">.ace</span>
+          </div>
+          <div class="ft-file">
+            <svg
+              class="ft-icon ft-icon-dynon"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <path d="M14 2v6h6" />
+            </svg>
+            RV-10 SkyView
+            <span class="ft-badge">.txt</span>
+          </div>
+          <div class="ft-file">
+            <svg
+              class="ft-icon ft-icon-ff"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <path d="M14 2v6h6" />
+            </svg>
+            ForeFlight Backup
+            <span class="ft-badge">.fmd</span>
+          </div>
+          <div class="ft-file">
+            <svg
+              class="ft-icon ft-icon-grt"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <path d="M14 2v6h6" />
+            </svg>
+            GRT Checklists
+            <span class="ft-badge">.txt</span>
+          </div>
+        </div>
+        <div class="sidebar-drop">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+            <path d="M17 8l-5-5-5 5" />
+            <path d="M12 3v12" />
+          </svg>
+          Drop file to import<br />or click to browse
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- CHECKLIST TREE -->
+        <div class="tree-panel">
+          <div class="tree-panel-header">
+            <span class="tph-name">N172SP Checklists</span>
+            <span class="tph-format">ACE</span>
+          </div>
+          <div class="tree-body">
+            <div class="tree-group">
+              <div class="tg-header">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+                Normal
+                <span class="tg-count">5</span>
+              </div>
+              <div class="tree-item active">
+                <span class="ti-icon ti-normal">✓</span>
+                Preflight Inspection
+                <span class="ti-items">24</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-normal">✓</span>
+                Before Engine Start
+                <span class="ti-items">12</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-normal">✓</span>
+                Engine Start
+                <span class="ti-items">8</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-normal">✓</span>
+                Before Takeoff
+                <span class="ti-items">15</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-normal">✓</span>
+                After Landing / Shutdown
+                <span class="ti-items">10</span>
+              </div>
+            </div>
+            <div class="tree-group">
+              <div class="tg-header">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+                Emergency
+                <span class="tg-count">4</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-emergency">!</span>
+                Engine Failure on Takeoff
+                <span class="ti-items">7</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-emergency">!</span>
+                Engine Fire In Flight
+                <span class="ti-items">9</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-emergency">!</span>
+                Electrical Fire
+                <span class="ti-items">11</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-emergency">!</span>
+                Emergency Landing
+                <span class="ti-items">6</span>
+              </div>
+            </div>
+            <div class="tree-group">
+              <div class="tg-header">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+                Abnormal
+                <span class="tg-count">3</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-abnormal">⚠</span>
+                Low Oil Pressure
+                <span class="ti-items">5</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-abnormal">⚠</span>
+                Alternator Failure
+                <span class="ti-items">8</span>
+              </div>
+              <div class="tree-item">
+                <span class="ti-icon ti-abnormal">⚠</span>
+                Pitot / Static Failure
+                <span class="ti-items">4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDITOR -->
+        <div class="editor">
+          <div class="editor-header">
+            <div class="eh-info">
+              <h2>
+                Preflight Inspection
+                <span class="badge badge-normal">Normal</span>
+              </h2>
+              <div class="eh-breadcrumb">
+                N172SP Checklists <span>›</span> Normal <span>›</span> Preflight
+                Inspection
+              </div>
+            </div>
+            <div class="eh-actions">
+              <button title="Duplicate checklist">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path
+                    d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"
+                  />
+                </svg>
+                Duplicate
+              </button>
+              <button title="Delete checklist" style="color: var(--red)">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M3 6h18" />
+                  <path
+                    d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="editor-body">
+            <!-- ═══ SECTION: CABIN ═══ -->
+            <div class="cl-item has-children" data-depth="0">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-title-dot"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-collapse" onclick="toggleCollapse(this)">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text cl-title-text">Cabin</span>
+                <span class="cl-child-count">4 items</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- Cabin children (depth 1) -->
+            <div class="cl-item indent-1" data-depth="1" data-parent="cabin">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Parking Brake</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">SET</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div
+              class="cl-item selected indent-1"
+              data-depth="1"
+              data-parent="cabin"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Hobbs / Tach</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">RECORD</span>
+                </div>
+              </div>
+              <div class="cl-actions" style="opacity: 1">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="cl-item indent-1" data-depth="1" data-parent="cabin">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text"
+                    >Required Documents (AROW)</span
+                  >
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">CHECK</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="cl-item indent-1" data-depth="1" data-parent="cabin">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick last-child"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Control Lock</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">REMOVE</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- ═══ SECTION: LEFT WING ═══ -->
+            <div
+              class="cl-item has-children"
+              data-depth="0"
+              style="margin-top: 4px"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-title-dot"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-collapse" onclick="toggleCollapse(this)">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text cl-title-text">Left Wing</span>
+                <span class="cl-child-count">6 items</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="cl-item indent-1" data-depth="1" data-parent="lwing">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text"
+                    >Wing Leading Edge & Stall Vane</span
+                  >
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">CHECK</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="cl-item indent-1" data-depth="1" data-parent="lwing">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Fuel Tank Sump</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">DRAIN & CHECK</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- Note under fuel sump -->
+            <div class="cl-item indent-1" data-depth="1" data-parent="lwing">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-note"></div>
+              </div>
+              <div class="cl-content">
+                <span class="cl-text cl-note-text"
+                  >Check for blue color and absence of water/debris</span
+                >
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- Warning under left wing -->
+            <div class="cl-item indent-1" data-depth="1" data-parent="lwing">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-warning-dot"></div>
+              </div>
+              <div class="cl-content">
+                <span class="cl-text cl-warning-text"
+                  >⚠ Ensure fuel cap is properly secured</span
+                >
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- ─── CONTROL SURFACES (depth 1, parent with children = depth 2) ─── -->
+            <div
+              class="cl-item has-children indent-1"
+              data-depth="1"
+              data-parent="lwing"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-title-dot"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-collapse" onclick="toggleCollapse(this)">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text cl-title-text" style="color: var(--cyan)"
+                  >Control Surfaces</span
+                >
+                <span class="cl-child-count">5 items</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Ailerons sub-header (depth 2) -->
+            <div
+              class="cl-item has-children indent-2"
+              data-depth="2"
+              data-parent="ctrl"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide"></div>
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-challenge"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-collapse" onclick="toggleCollapse(this)">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text" style="font-weight: 600">Ailerons</span>
+                <span class="cl-child-count">2 sub-checks</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- Ailerons children (depth 3) -->
+            <div class="cl-item indent-3" data-depth="3" data-parent="ailerons">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide"></div>
+                <div class="cl-indent-guide"></div>
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Hinges</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">FREE & PINNED</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="cl-item indent-3" data-depth="3" data-parent="ailerons">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide"></div>
+                <div class="cl-indent-guide"></div>
+                <div class="cl-indent-guide has-tick last-child"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Linkages</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">TIGHT & CONNECTED</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Flaps sub-header (depth 2) -->
+            <div
+              class="cl-item has-children indent-2"
+              data-depth="2"
+              data-parent="ctrl"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide"></div>
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-challenge"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-collapse" onclick="toggleCollapse(this)">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text" style="font-weight: 600">Flaps</span>
+                <span class="cl-child-count">3 sub-checks</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- Flaps children (depth 3) -->
+            <div class="cl-item indent-3" data-depth="3" data-parent="flaps">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide"></div>
+                <div
+                  class="cl-indent-guide last-child"
+                  style="opacity: 0"
+                ></div>
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Hinges & Tracks</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">SECURE</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="cl-item indent-3" data-depth="3" data-parent="flaps">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide"></div>
+                <div
+                  class="cl-indent-guide last-child"
+                  style="opacity: 0"
+                ></div>
+                <div class="cl-indent-guide has-tick"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Actuator Rod</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">CONNECTED</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="cl-item indent-3" data-depth="3" data-parent="flaps">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide"></div>
+                <div
+                  class="cl-indent-guide last-child"
+                  style="opacity: 0"
+                ></div>
+                <div class="cl-indent-guide has-tick last-child"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Skin & Rivets</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">NO DAMAGE</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Back to depth-1 under Left Wing -->
+            <div class="cl-item indent-1" data-depth="1" data-parent="lwing">
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-indent">
+                <div class="cl-indent-guide has-tick last-child"></div>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-check"></div>
+              </div>
+              <div class="cl-content">
+                <div class="cl-challenge-response">
+                  <span class="cl-challenge-text">Wingtip & Nav Light</span>
+                  <span class="cl-dots">····</span>
+                  <span class="cl-response-text">CHECK</span>
+                </div>
+              </div>
+              <div class="cl-actions">
+                <button title="Indent / Outdent">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M21 6H11M21 12H11M21 18H11M7 8l-4 4 4 4" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- ═══ SECTION: NOSE / ENGINE ═══ -->
+            <div
+              class="cl-item has-children"
+              data-depth="0"
+              style="margin-top: 4px"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-title-dot"></div>
+              </div>
+              <div class="cl-content">
+                <div
+                  class="cl-collapse collapsed"
+                  onclick="toggleCollapse(this)"
+                >
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text cl-title-text"
+                  >Nose / Engine Compartment</span
+                >
+                <span class="cl-child-count">8 items</span>
+                <span class="cl-collapsed-badge">collapsed</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- (children hidden — collapsed state) -->
+
+            <!-- ═══ SECTION: RIGHT WING ═══ -->
+            <div
+              class="cl-item has-children"
+              data-depth="0"
+              style="margin-top: 4px"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-title-dot"></div>
+              </div>
+              <div class="cl-content">
+                <div
+                  class="cl-collapse collapsed"
+                  onclick="toggleCollapse(this)"
+                >
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text cl-title-text">Right Wing</span>
+                <span class="cl-child-count">6 items</span>
+                <span class="cl-collapsed-badge">collapsed</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- ═══ SECTION: EMPENNAGE ═══ -->
+            <div
+              class="cl-item has-children"
+              data-depth="0"
+              style="margin-top: 4px"
+            >
+              <div class="cl-drag">
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="9" cy="5" r="1" />
+                  <circle cx="9" cy="12" r="1" />
+                  <circle cx="9" cy="19" r="1" />
+                  <circle cx="15" cy="5" r="1" />
+                  <circle cx="15" cy="12" r="1" />
+                  <circle cx="15" cy="19" r="1" />
+                </svg>
+              </div>
+              <div class="cl-type">
+                <div class="cl-type-indicator cl-title-dot"></div>
+              </div>
+              <div class="cl-content">
+                <div
+                  class="cl-collapse collapsed"
+                  onclick="toggleCollapse(this)"
+                >
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </div>
+                <span class="cl-text cl-title-text">Empennage</span>
+                <span class="cl-child-count">5 items</span>
+                <span class="cl-collapsed-badge">collapsed</span>
+              </div>
+              <div class="cl-actions">
+                <button title="Add child item">
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                <button>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                    />
+                    <path
+                      d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Add item button -->
+            <div class="cl-add-row" style="margin-top: 8px">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add section or item
+            </div>
+          </div>
+        </div>
+
+        <!-- PROPERTIES PANEL -->
+        <div class="props-panel" id="propsPanel">
+          <div class="props-header">Item Properties</div>
+          <div class="props-body">
+            <div class="prop-section">
+              <h4>Selected Item</h4>
+              <div class="prop-field">
+                <label>Type</label>
+                <select>
+                  <option selected>Challenge / Response</option>
+                  <option>Challenge Only</option>
+                  <option>Title / Section Header</option>
+                  <option>Note / Plaintext</option>
+                  <option>Warning</option>
+                  <option>Caution</option>
+                </select>
+              </div>
+              <div class="prop-field">
+                <label>Challenge Text</label>
+                <input type="text" value="Parking Brake" />
+              </div>
+              <div class="prop-field">
+                <label>Response Text</label>
+                <input type="text" value="SET" />
+              </div>
+            </div>
+
+            <div class="prop-section">
+              <h4>Formatting</h4>
+              <div class="prop-field">
+                <label>Indent Level</label>
+                <select>
+                  <option>0 — Root level</option>
+                  <option selected>1 — Under section</option>
+                  <option>2 — Sub-group</option>
+                  <option>3 — Detail item</option>
+                </select>
+              </div>
+              <div class="prop-toggle">
+                <span>Centered</span>
+                <div class="toggle-switch"></div>
+              </div>
+              <div class="prop-toggle">
+                <span>Collapsible parent</span>
+                <div class="toggle-switch"></div>
+              </div>
+            </div>
+
+            <div class="prop-section">
+              <h4>Format Compatibility</h4>
+              <div class="format-compat">
+                <div class="fc-row">
+                  <span>Garmin G3X</span>
+                  <span class="fc-supported">✓ Supported</span>
+                </div>
+                <div class="fc-row">
+                  <span>AFS / Dynon</span>
+                  <span class="fc-supported">✓ Supported</span>
+                </div>
+                <div class="fc-row">
+                  <span>ForeFlight</span>
+                  <span class="fc-supported">✓ Supported</span>
+                </div>
+                <div class="fc-row">
+                  <span>Garmin Pilot</span>
+                  <span class="fc-supported">✓ Supported</span>
+                </div>
+                <div class="fc-row">
+                  <span>GRT</span> <span class="fc-supported">✓ Supported</span>
+                </div>
+                <div class="fc-row">
+                  <span>PDF</span> <span class="fc-supported">✓ Supported</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="prop-section">
+              <h4>Checklist Metadata</h4>
+              <div class="prop-field">
+                <label>Aircraft Registration</label>
+                <input type="text" value="N172SP" />
+              </div>
+              <div class="prop-field">
+                <label>Aircraft Make & Model</label>
+                <input type="text" value="Cessna 172S Skyhawk SP" />
+              </div>
+              <div class="prop-field">
+                <label>Copyright</label>
+                <input type="text" value="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATUS BAR -->
+    <div class="statusbar">
+      <div class="sb-item">
+        <div class="sb-dot"></div>
+        Saved
+      </div>
+      <div class="sb-item">24 items</div>
+      <div class="sb-item">Item 2 of 24 selected</div>
+      <div class="sb-spacer"></div>
+      <div class="sb-item clickable">
+        <svg
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="2" y="3" width="20" height="14" rx="2" />
+          <path d="M8 21h8M12 17v4" />
+        </svg>
+        v1.0.0
+      </div>
+      <div class="sb-item clickable" title="Keyboard shortcuts">
+        <svg
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path
+            d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"
+          />
+        </svg>
+        Shortcuts
+      </div>
+    </div>
+
+    <!-- EXPORT MODAL -->
+    <div
+      class="modal-overlay"
+      id="exportModal"
+      onclick="if (event.target === this) this.classList.remove('show');"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Export Checklists</h3>
+          <button
+            class="modal-close"
+            onclick="
+              document.getElementById('exportModal').classList.remove('show')
+            "
+          >
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="export-grid">
+            <div class="export-option">
+              <span class="eo-name">Garmin G3X / GTN</span>
+              <span class="eo-ext">.ace</span>
+              <span class="eo-desc">G3X, G3X Touch, GTN series</span>
+            </div>
+            <div class="export-option">
+              <span class="eo-name">Garmin Pilot</span>
+              <span class="eo-ext">.gplt</span>
+              <span class="eo-desc">Unencrypted format</span>
+            </div>
+            <div class="export-option">
+              <span class="eo-name">AFS / Dynon</span>
+              <span class="eo-ext">.afd / .txt</span>
+              <span class="eo-desc">SkyView, AF-5000 series</span>
+            </div>
+            <div class="export-option">
+              <span class="eo-name">ForeFlight</span>
+              <span class="eo-ext">.fmd</span>
+              <span class="eo-desc">Jeppesen ForeFlight Mobile</span>
+            </div>
+            <div class="export-option">
+              <span class="eo-name">GRT</span>
+              <span class="eo-ext">.txt</span>
+              <span class="eo-desc">Grand Rapids Technologies</span>
+            </div>
+            <div class="export-option">
+              <span class="eo-name">Printable PDF</span>
+              <span class="eo-ext">.pdf</span>
+              <span class="eo-desc">Paper backup, selectable page size</span>
+            </div>
+            <div class="export-option">
+              <span class="eo-name">JSON Backup</span>
+              <span class="eo-ext">.json</span>
+              <span class="eo-desc">Lossless internal format</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Keyboard hint -->
+    <div class="shortcuts-hint" id="shortcutsHint">
+      <kbd>↑</kbd><kbd>↓</kbd> Navigate &nbsp; <kbd>Enter</kbd> Edit &nbsp;
+      <kbd>Del</kbd> Remove &nbsp; <kbd>⌘K</kbd> Search
+    </div>
+
+    <script>
+      // Toggle properties panel
+      function toggleProps() {
+        const p = document.getElementById("propsPanel");
+        p.style.display = p.style.display === "none" ? "flex" : "none";
+      }
+
+      // Collapse/expand parent rows
+      function toggleCollapse(btn) {
+        btn.classList.toggle("collapsed");
+        const row = btn.closest(".cl-item");
+        const depth = parseInt(row.dataset.depth);
+        let sibling = row.nextElementSibling;
+        const isCollapsing = btn.classList.contains("collapsed");
+
+        // Show/hide collapsed badge
+        const badge = row.querySelector(".cl-collapsed-badge");
+        if (isCollapsing && !badge) {
+          const b = document.createElement("span");
+          b.className = "cl-collapsed-badge";
+          b.textContent = "collapsed";
+          row.querySelector(".cl-content").appendChild(b);
+        } else if (!isCollapsing && badge) {
+          badge.remove();
+        }
+
+        while (sibling) {
+          const sibDepth = parseInt(sibling.dataset?.depth);
+          if (isNaN(sibDepth) || sibDepth <= depth) break;
+          sibling.style.display = isCollapsing ? "none" : "flex";
+          // If expanding and hitting a collapsed sub-parent, skip its children
+          if (!isCollapsing) {
+            const subCollapse = sibling.querySelector(".cl-collapse.collapsed");
+            if (subCollapse) {
+              const subDepth = parseInt(sibling.dataset.depth);
+              let skip = sibling.nextElementSibling;
+              while (skip) {
+                const skipDepth = parseInt(skip.dataset?.depth);
+                if (isNaN(skipDepth) || skipDepth <= subDepth) break;
+                skip.style.display = "none";
+                skip = skip.nextElementSibling;
+              }
+            }
+          }
+          sibling = sibling.nextElementSibling;
+        }
+        event.stopPropagation();
+      }
+
+      // Show keyboard shortcuts hint briefly
+      setTimeout(() => {
+        document.getElementById("shortcutsHint").classList.add("show");
+        setTimeout(
+          () =>
+            document.getElementById("shortcutsHint").classList.remove("show"),
+          5000,
+        );
+      }, 2000);
+
+      // Tree item click
+      document.querySelectorAll(".tree-item").forEach((el) => {
+        el.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tree-item")
+            .forEach((e) => e.classList.remove("active"));
+          el.classList.add("active");
+        });
+      });
+
+      // Checklist item click
+      document.querySelectorAll(".cl-item").forEach((el) => {
+        el.addEventListener("click", () => {
+          document
+            .querySelectorAll(".cl-item")
+            .forEach((e) => e.classList.remove("selected"));
+          el.classList.add("selected");
+        });
+      });
+
+      // File click
+      document.querySelectorAll(".ft-file").forEach((el) => {
+        el.addEventListener("click", () => {
+          document
+            .querySelectorAll(".ft-file")
+            .forEach((e) => e.classList.remove("active"));
+          el.classList.add("active");
+        });
+      });
+
+      // Toggle switches
+      document.querySelectorAll(".toggle-switch").forEach((el) => {
+        el.addEventListener("click", () => el.classList.toggle("on"));
+      });
+    </script>
+  </body>
+</html>
