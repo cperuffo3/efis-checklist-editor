@@ -22,7 +22,6 @@
     "release:minor": "dotenv -- release-it minor",
     "release:major": "dotenv -- release-it major",
     "bump-shadcn-components": "ts-node ./scripts/bump-shadcn-components.ts",
-    "init-project": "node scripts/init.mjs",
     "generate-icons": "node scripts/generate-icons.mjs"
   },
   "author": "Corey Peruffo <cperuffo3@gmail.com>",
