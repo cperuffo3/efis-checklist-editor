@@ -2,7 +2,6 @@
 /dist
 /coverage
 /.vite
-README.md
 /src/routeTree.gen.ts
 
 # Lock files should not be formatted

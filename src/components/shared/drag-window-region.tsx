@@ -4,9 +4,10 @@ import { type ReactNode, useEffect, useState } from "react";
 
 interface DragWindowRegionProps {
   title?: ReactNode;
+  subtitle?: string;
 }
 
-export function DragWindowRegion({ title }: DragWindowRegionProps) {
+export function DragWindowRegion({ title, subtitle }: DragWindowRegionProps) {
   const [platform, setPlatform] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,16 +33,38 @@ export function DragWindowRegion({ title }: DragWindowRegionProps) {
   const isMacOS = platform === "darwin";
 
   return (
-    <div className="flex w-full items-stretch justify-between">
+    <div className="bg-bg-base-deepest border-border-dark flex h-9.5 w-full shrink-0 items-stretch justify-between border-b">
       <div className="draglayer w-full">
-        {title && !isMacOS && (
-          <div className="flex flex-1 p-2 text-xs whitespace-nowrap text-gray-400 select-none">
-            {title}
+        {!isMacOS && (
+          <div className="flex flex-1 items-center px-3 py-2 text-xs whitespace-nowrap select-none">
+            {title && (
+              <span className="text-foreground font-semibold">{title}</span>
+            )}
+            {subtitle && (
+              <>
+                <span className="text-muted-foreground mx-1.5">&mdash;</span>
+                <span className="text-muted-foreground">{subtitle}</span>
+              </>
+            )}
           </div>
         )}
         {isMacOS && (
-          <div className="flex flex-1 p-2">
-            {/* Maintain the same height but do not display content */}
+          <div className="flex flex-1 items-center px-3 py-2">
+            {title && (
+              <span className="text-foreground pl-16 text-xs font-semibold">
+                {title}
+              </span>
+            )}
+            {subtitle && (
+              <>
+                <span className="text-muted-foreground mx-1.5 text-xs">
+                  &mdash;
+                </span>
+                <span className="text-muted-foreground text-xs">
+                  {subtitle}
+                </span>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -52,11 +75,11 @@ export function DragWindowRegion({ title }: DragWindowRegionProps) {
 
 function WindowButtons() {
   return (
-    <div className="flex">
+    <div className="text-muted-foreground flex">
       <button
         title="Minimize"
         type="button"
-        className="p-2 hover:bg-slate-300"
+        className="hover:bg-bg-hover hover:text-foreground px-3 py-2 transition-colors duration-150"
         onClick={minimizeWindow}
       >
         <svg
@@ -72,7 +95,7 @@ function WindowButtons() {
       <button
         title="Maximize"
         type="button"
-        className="p-2 hover:bg-slate-300"
+        className="hover:bg-bg-hover hover:text-foreground px-3 py-2 transition-colors duration-150"
         onClick={maximizeWindow}
       >
         <svg
@@ -95,7 +118,7 @@ function WindowButtons() {
       <button
         type="button"
         title="Close"
-        className="p-2 hover:bg-red-300"
+        className="hover:bg-efis-red hover:text-foreground px-3 py-2 transition-colors duration-150"
         onClick={closeWindow}
       >
         <svg

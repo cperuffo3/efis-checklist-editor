@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import { app, BrowserWindow } from "electron";
 import path from "path";
-import { existsSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 
 // Load .env file - try multiple possible locations
 const possibleEnvPaths = [
@@ -24,18 +24,56 @@ for (const envPath of possibleEnvPaths) {
 if (!envLoaded && !app.isPackaged) {
   console.warn("[Dotenv] No .env file found in development");
 }
+import { nativeTheme } from "electron";
 import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
+
+nativeTheme.themeSource = "dark";
 import { ipcMain } from "electron/main";
 import { autoUpdater } from "electron-updater";
 import { ipcContext } from "@/ipc/context";
 import { IPC_CHANNELS, UPDATE_CHANNELS } from "./constants";
-import { readFileSync } from "fs";
 
 const inDevelopment = process.env.NODE_ENV === "development";
 const isPortable = !!process.env.PORTABLE_EXECUTABLE_DIR;
+
+// Window state persistence
+interface WindowState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  isMaximized: boolean;
+}
+
+function getWindowStatePath(): string {
+  return path.join(app.getPath("userData"), "window-state.json");
+}
+
+function loadWindowState(): WindowState | null {
+  try {
+    const filePath = getWindowStatePath();
+    if (!existsSync(filePath)) return null;
+    return JSON.parse(readFileSync(filePath, "utf-8")) as WindowState;
+  } catch {
+    return null;
+  }
+}
+
+function saveWindowState(window: BrowserWindow): void {
+  try {
+    const bounds = window.getBounds();
+    const state: WindowState = {
+      ...bounds,
+      isMaximized: window.isMaximized(),
+    };
+    writeFileSync(getWindowStatePath(), JSON.stringify(state, null, 2));
+  } catch (err) {
+    console.error("[WindowState] Failed to save:", err);
+  }
+}
 
 // Get GitHub token for private repo updates
 function getUpdateToken(): string {
@@ -72,9 +110,15 @@ function getIconPath() {
 
 function createWindow() {
   const preload = path.join(__dirname, "../preload/index.js");
+  const savedState = loadWindowState();
+
   const mainWindow = new BrowserWindow({
-    width: 1540,
-    height: 1080,
+    width: savedState?.width ?? 1540,
+    height: savedState?.height ?? 1080,
+    x: savedState?.x,
+    y: savedState?.y,
+    minWidth: 800,
+    minHeight: 600,
     icon: getIconPath(),
     webPreferences: {
       devTools: inDevelopment,
@@ -88,7 +132,24 @@ function createWindow() {
     trafficLightPosition:
       process.platform === "darwin" ? { x: 5, y: 5 } : undefined,
   });
+
+  if (savedState?.isMaximized) {
+    mainWindow.maximize();
+  }
+
   ipcContext.setMainWindow(mainWindow);
+
+  // Fix keyboard focus after title bar / drag-region interactions.
+  // The -webkit-app-region:drag title bar steals focus from the
+  // webContents, causing all keyboard shortcuts to silently stop working.
+  mainWindow.on("focus", () => mainWindow.webContents.focus());
+  mainWindow.on("restore", () => mainWindow.webContents.focus());
+  mainWindow.on("moved", () => mainWindow.webContents.focus());
+
+  // Save window state on close
+  mainWindow.on("close", () => {
+    saveWindowState(mainWindow);
+  });
 
   const isDev = !app.isPackaged;
 

@@ -1,0 +1,3118 @@
+{
+  "name": "Piper Cherokee/Archer/Warrior Checklists",
+  "format": "json",
+  "groups": [
+    {
+      "name": "PREFLIGHT",
+      "category": "normal",
+      "checklists": [
+        {
+          "name": "Preflight Inspection",
+          "items": [
+            {
+              "type": "title",
+              "challengeText": "BEFORE FLIGHT",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "WEATHER BRIEF",
+              "responseText": "OBTAINED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "NOTAMS",
+              "responseText": "ALL AIRPORTS CHECKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "WEIGHT & BALANCE",
+              "responseText": "COMPUTE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "COVERS AND COWL PLUGS",
+              "responseText": "REMOVED & STOWED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "INTERIOR",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CERTIFICATES/DOCUMENTS",
+              "responseText": "IN-AIRCRAFT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Airworthiness Certificate, Registration, Radio Operators/Station License, Operating Limitation/Flight Manual, Weight & Balance (current)",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CONTROL LOCK",
+              "responseText": "REMOVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "MOST FULL TANK",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRIM",
+              "responseText": "SET TAKEOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "HOBBS & TACH",
+              "responseText": "MATCH DISPATCH",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "FULL LEAN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "IDLE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CIRCUIT BREAKERS",
+              "responseText": "NONE TRIPPED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LIGHTS AND PITOT HEAT",
+              "responseText": "ALL ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BATT & ALT",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "FULL",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL GAUGES",
+              "responseText": "ACCURATE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PITOT HEAT",
+              "responseText": "OFF AFTER 30S",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LIGHTS",
+              "responseText": "VERIFY ALL LIT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BATT & ALT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LIGHTS",
+              "responseText": "BEACON  ON, OTHERS OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "EXTERIOR",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "STATIC PORT",
+              "responseText": "CLEAR",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PITOT TUBE",
+              "responseText": "PORT AND DRAIN CLEAR, TUBE WARM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AIR, AVIONICS & FUEL VENTS",
+              "responseText": "CLEAR",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL QUANTITY",
+              "responseText": "MATCHES GAUGES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL QUALITY",
+              "responseText": "SATISFACTORY",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "STALL WARNING",
+              "responseText": "UNOBSTRUCTED AND TESTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ENGINE OIL",
+              "responseText": "6-8 QTS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ENGINE FUEL STRAINER",
+              "responseText": "SUMPED AND CHECKED FOR CONTAMINENTS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Or drain for 4s",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "LEFT WING AILERONS",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "HINGES",
+              "responseText": "FREE AND PINNED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LINKAGES",
+              "responseText": "TIGHT AND CONNECTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BALANCE WEIGHTS",
+              "responseText": "IN-PLACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OVERALL CONDITION",
+              "responseText": "NO LARGE DENTS, DEVIATIONS, OR OBSTRUCTIONS OBSERVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "LEFT WING FLAP",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "POSITION",
+              "responseText": "FULL",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LINKAGES",
+              "responseText": "TIGHT AND CONNECTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CAM TRACKS",
+              "responseText": "ACCEPTABLE PLAY AND CONDITION",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OVERALL CONDITION",
+              "responseText": "NO LARGE DENTS, DEVIATIONS, OR OBSTRUCTIONS OBSERVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "LEFT WHEEL",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CHOCKS",
+              "responseText": "REMOVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TIRES",
+              "responseText": "INFLATED APPROPRIATELY, COTTER PIN IN PLACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TREADS",
+              "responseText": "GOOD DEPTH, NO WIRE SHOWING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKES",
+              "responseText": "NO ROTOR WARP OR WEAR",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKE PADS",
+              "responseText": "SEE WITNESS MARKS OR VERIFY THICKNESS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKE LINES",
+              "responseText": "NO INDICATION OF LEAKS OR HOLES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "EMPENNAGE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BAGGAGE DOOR",
+              "responseText": "CLOSED AND LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "COMMS & GPS ANTENNAE",
+              "responseText": "ALL FREE AND UNOBSTRUCTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ELT ANTENNAE",
+              "responseText": "FREE AND WIGGLY",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "ELEVATOR",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BALANCE WEIGHTS",
+              "responseText": "IN-PLACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "HINGES",
+              "responseText": "FREE AND PINNED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LINKAGES",
+              "responseText": "TIGHT AND CONNECTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRIM TAB",
+              "responseText": "TIGHT AND INLINE WITH SURFACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OVERALL CONDITION",
+              "responseText": "NO LARGE DENTS, DEVIATIONS, OR OBSTRUCTIONS OBSERVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "RUDDER",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BALANCE WEIGHT",
+              "responseText": "IN-PLACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "HINGES",
+              "responseText": "FREE AND PINNED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LINKAGES",
+              "responseText": "TIGHT AND CONNECTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRIM PLANE",
+              "responseText": "NO LARGE DEVIATIONS OR DENTS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "RIGHT WHEEL",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CHOCKS",
+              "responseText": "REMOVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TIRES",
+              "responseText": "INFLATED APPROPRIATELY, COTTER PIN IN PLACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TREADS",
+              "responseText": "GOOD DEPTH, NO WIRE SHOWING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKES",
+              "responseText": "NO ROTOR WARP OR WEAR",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKE PADS",
+              "responseText": "SEE WITNESS MARKS OR VERIFY THICKNESS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKE LINES",
+              "responseText": "NO INDICATION OF LEAKS OR HOLES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "RIGHT WING FLAP",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "POSITION",
+              "responseText": "FULL",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LINKAGES",
+              "responseText": "TIGHT AND CONNECTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CAM TRACKS",
+              "responseText": "ACCEPTABLE PLAY AND CONDITION",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OVERALL CONDITION",
+              "responseText": "NO LARGE DENTS, DEVIATIONS, OR OBSTRUCTIONS OBSERVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "RIGHT WING AILERON",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "HINGES",
+              "responseText": "FREE AND PINNED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LINKAGES",
+              "responseText": "TIGHT AND CONNECTED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BALANCE WEIGHTS",
+              "responseText": "IN-PLACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OVERALL CONDITION",
+              "responseText": "NO LARGE DENTS, DEVIATIONS, OR OBSTRUCTIONS OBSERVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "NOSE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PROPELLOR & SPINNER",
+              "responseText": "NO NICKS, DENTS, OR SEVERE SCRATCHES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTERNATOR BELTS",
+              "responseText": "GOOD TENSION AND IN GOOD CONDIOTION",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AIR FILTER",
+              "responseText": "FREE AND CLEAN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ENGINE COWL & OIL DOOR",
+              "responseText": "SECURED AND LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EXHAUSE",
+              "responseText": "SECURE AND UNOBSTRUCTRED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "NOSE WHEEL",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CHOCKS AND TOWBAR",
+              "responseText": "REMOVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "STRUT",
+              "responseText": "3-4 FINGERS TALL AND IN GOOD CONDITION",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TIRES",
+              "responseText": "INFLATED APPROPRIATELY, COTTER PIN IN PLACE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TREADS",
+              "responseText": "GOOD DEPTH, NO WIRE SHOWING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKES",
+              "responseText": "NO ROTOR WARP OR WEAR",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKE PADS",
+              "responseText": "SEE WITNESS MARKS OR VERIFY THICKNESS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKE LINES",
+              "responseText": "NO INDICATION OF LEAKS OR HOLES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "CABIN",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PASSENGER BRIEFING",
+              "responseText": "COMPLETE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Before Start",
+          "items": [
+            {
+              "type": "title",
+              "challengeText": "Pre-Start Checks",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "SEAT TRACK/BACK",
+              "responseText": "LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "SEATBELTS",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKES",
+              "responseText": "TESTED & HELD",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLIGHT CONTROLS",
+              "responseText": "FREE & CORRECT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRIMS",
+              "responseText": "SET TAKEOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "UP",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "FULL RICH",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "1/4\" OPEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LIGHTS",
+              "responseText": "BEACON AND NAV ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AVIONICS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AUTOPILOT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTERNATE STATIC",
+              "responseText": "CHECK & NORMAL",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ELT",
+              "responseText": "ARMED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "Start Procedure",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "FULLEST TANK",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_only",
+              "challengeText": "CLEAR PROP",
+              "responseText": "",
+              "indent": 0,
+              "centered": true,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PRIME",
+              "responseText": "AS REQUIRED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "START (8 SEC. MAX)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "L mag only if starter button, press button, then both after start",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "*Flooded start: start full lean and throttle full open then reverse when engine starts to fire",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "**Warm/hot engine start: do not prime",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "After Start",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "1000 RPM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OIL PRESSURE",
+              "responseText": "GREEN W/IN 30 SEC",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "LEAN FOR TAXI",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTERNATOR",
+              "responseText": "ON, OUTPUT CONFIRMED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EYES OUTSIDE WHENEVER POSSIBLE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AVIONICS",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "GPS & RADIOS",
+              "responseText": "CHECKED & SET",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "WEATHER",
+              "responseText": "OBTAINED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CONTROLS",
+              "responseText": "POSITIONED FOR WIND",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "INSTRUMENTS",
+              "responseText": "SET & CHECKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRANSPONDER",
+              "responseText": "CODE & ALT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Taxi & Runup",
+          "items": [
+            {
+              "type": "title",
+              "challengeText": "TAXI",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LOCAL AREA",
+              "responseText": "SAFE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "STERILE COCKPIT",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TAXI LIGHT",
+              "responseText": "ON (FLASH IF MARSHAL)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKES",
+              "responseText": "CHECKED IMMEDIATELY",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "GYROSCOPIC INSTRUMENTS",
+              "responseText": "CHECKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CLEARANCES",
+              "responseText": "OBTAINED AS REQUIRED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "RUNUP",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LOCAL AREA",
+              "responseText": "CLEAR BEHIND",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKES",
+              "responseText": "HELD",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLIGHT CONTROLS",
+              "responseText": "FREE & CORRECT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRIMS",
+              "responseText": "SET TAKEOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OIL TEMP.",
+              "responseText": "GREEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "BEST POWER",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ANNUNCIATOR LIGHTS",
+              "responseText": "CHECKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PRIMER",
+              "responseText": "IN & LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "FULLEST TANK",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "2000 RPM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OIL PRES. & TEMP.",
+              "responseText": "GREEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PRES.",
+              "responseText": "GREEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "CHECK L & R",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "175 max drop, 50 differential",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "VACUUM",
+              "responseText": "4.9-5.1\" HG",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EFIS/G5 BATTERY",
+              "responseText": "100% & CHARGING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AMPS/VOLTS",
+              "responseText": "BATTERY CHARGING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "~100 RPM DROP",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "IDLE CHECKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "1000 RPM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "LEAN FOR TAXI",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Before Takeoff",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "TAKEOFF BRIEFING & ABORT PLAN",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "SEATS & SEAT BELTS",
+              "responseText": "LOCKED & BUCKLED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRIMS",
+              "responseText": "TAKEOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "SET 0-25°",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "DOORS & WINDOWS",
+              "responseText": "CLOSED & LATCHED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "BEST POWER",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LANDING LIGHT & STROBES",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PITOT HEAT",
+              "responseText": "ON AS REQUIRED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL",
+              "responseText": "HOURS REMAINING AND FLIGHT TIME",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRANSPONDER",
+              "responseText": "CODE & ALT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "GPS & RADIOS",
+              "responseText": "SET",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "INSTRUMENTS & BUGS",
+              "responseText": "SET",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "FULLEST TANK",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "caution",
+              "challengeText": "Wait at least 2 minutes after switching tanks before takeoff",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TIME",
+              "responseText": "RECORDED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TAKEOFF CLEARANCE AND RUNWAY VERIFIED",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "IN-FLIGHT",
+      "category": "normal",
+      "checklists": [
+        {
+          "name": "Climb",
+          "items": [
+            {
+              "type": "caution",
+              "challengeText": "All speeds listed here are in knots indicated airspeed (KIAS)",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "FULL OPEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "VX 64, VY 74-76 OR CRUISE CLIMB 90",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "UP (SLOWLY & WHEN SAFE)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TAXI & LANDING LIGHTS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "LEAN AS REQUIRED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ENGINE INSTRUMENTS",
+              "responseText": "GREEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Cruise",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "2200-2500 RPM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "LEANED AS REQUIRED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "INSTRUMENTS",
+              "responseText": "CHECKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "SWITCH TANKS AS NEEDED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Fuel pump must be on to switch tanks",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Approach & Descent",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "WEATHER",
+              "responseText": "OBTAINED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "INSTRUMENTS",
+              "responseText": "SET & CHECKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "APPROACH & LANDING BRIEFING",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "GPS & RADIOS",
+              "responseText": "SET",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "SEAT BELTS & BACKS",
+              "responseText": "ON & UP",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "RICHEN SLOWLY DURD",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LANDING LIGHT",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "FULLEST TANK",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Pre-Landing",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "BRAKES",
+              "responseText": "CHECKED & PARK OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "FULLEST TANK",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "BEST POWER",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "~1600-1800 RPM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "AS REQUIRED WHEN < 100",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "65-70 (MIN ON SHORT FINAL)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Add speed for conditions",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "POST-FLIGHT",
+      "category": "normal",
+      "checklists": [
+        {
+          "name": "After Landing",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "UP",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRIM",
+              "responseText": "TAKEOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "LEAN FOR TAXI",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LIGHTS",
+              "responseText": "LANDING OFF, TAXI ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PITOT HEAT, STROBES, FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TRANSPONDER",
+              "responseText": "CODE & ALT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Shutdown",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "FLIGHT PLAN",
+              "responseText": "CLOSED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ELT",
+              "responseText": "VERIFY OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AVIONICS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "CUTOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "HOBBS & TACH",
+              "responseText": "RECORDED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LIGHTS",
+              "responseText": "ALL EXCEPT BEACON OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "COVERS, CONTROL LOCK, TIES, CHOCKS",
+              "responseText": "INSTALLED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BAGGAGE, PERSONAL ITEMS, KEYS",
+              "responseText": "ACCOUNTED FOR",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ENGINE-FAILURES",
+      "category": "emergency",
+      "checklists": [
+        {
+          "name": "Engine Failure in Flight",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "BEST GLIDE VG 70-76",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BEST PLACE TO LAND",
+              "responseText": "CHOOSE ONE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Choose efficiently considering surface, wind, and obstacles, then fly to it",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "ATTEMPT RESTART (TIME PERMITTING)",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "RICH",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "ADJUST",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PRIMER",
+              "responseText": "TRY PUMPING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "TRY L & R (AND START IF PROP NOT WINDMILLING)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "SWITCH TANK",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "DECLARE AN EMERGENCY",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EXIT PLAN",
+              "responseText": "BRIEFED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Continue to next appropriate checklist if no restart",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FIRES",
+      "category": "emergency",
+      "checklists": [
+        {
+          "name": "Emergency Descent (Fire)",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "MAX SAFE (DO NOT EXCEED VNE 152-158)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BEST PLACE TO LAND",
+              "responseText": "CHOOSE ANYTHING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "SECURE ENGINE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "CUTOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PRIMER",
+              "responseText": "IN & LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CABIN HEAT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "VENTS",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "DECLARE AN EMERGENCY",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "RADIO & ELECTRICAL",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EXIT PLAN",
+              "responseText": "BRIEFED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EXECUTE POWER-OFF LANDING",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Fire During Start",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "CUTOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "FULL OPEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "STARTER",
+              "responseText": "KEEP CRANKING",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Unless engine starts, then run it at 1700 RPM for a few seconds",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FIRE EXTINGUISHER",
+              "responseText": "READY",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "caution",
+              "challengeText": "EVACUATE AIRCRAFT",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FORCED-LANDINGS",
+      "category": "emergency",
+      "checklists": [
+        {
+          "name": "Ditching / Water Landing",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "HOLD BEST GLIDE VG 70-76",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LANDING AREA",
+              "responseText": "AVOID WATER; CONSIDER BEACH OR TREES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "If unable to avoid water: High winds/swells - land into wind. Light wind - land parallel to swells",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "SECURE ENGINE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "RADIO & ELECTRICAL",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "CUTOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PRIMER",
+              "responseText": "IN & LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "DOOR",
+              "responseText": "OPEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "SECURE OR JETTISON HEAVY OBJECTS",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LIFE VESTS AND RAFT",
+              "responseText": "PREPARED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Do not inflate until after exiting aircraft",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "SEATBELTS",
+              "responseText": "TIGHT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ON FINAL, FLAPS",
+              "responseText": "25-40° FOR MIN AIRSPEED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CUSHION INSTRUMENT PANEL / YOUR FACE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "caution",
+              "challengeText": "After touchdown: evacuate aircraft; may need to open window first to equalize water pressure",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Emergency Descent (Other)",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "MAX SAFE (DO NOT EXCEED VNE 152-158)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "BEST PLACE TO LAND",
+              "responseText": "CHOOSE ONE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Choose efficiently considering surface, wind, and obstacles, then fly to it",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "DECLARE AN EMERGENCY",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "SECURE ENGINE WHEN LANDING ASSURED (IF OFF-AIRPORT)",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "CUTOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PRIMER",
+              "responseText": "IN & LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EXIT PLAN",
+              "responseText": "BRIEFED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "EXECUTE POWER-OFF LANDING",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Emergency Landing Without Engine Power",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "HOLD BEST GLIDE VG 70-76",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LANDING AREA",
+              "responseText": "SELECT & INSPECT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "SECURE ENGINE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL PUMP",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "RADIO & ELECTRICAL",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "CUTOFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PRIMER",
+              "responseText": "IN & LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MAGS",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FUEL SELECTOR",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "SEATBELTS",
+              "responseText": "TIGHT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ON FINAL, FLAPS",
+              "responseText": "AS REQUIRED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "DOOR",
+              "responseText": "OPEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Inadvertent Icing Conditions",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "PITOT HEAT",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TURN OR CLIMB TO EXIT",
+              "responseText": "BELOW FREEZING TEMPS OR MOISTURE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CABIN HEAT",
+              "responseText": "ON, MAX WINDSHIELD DEFROST",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "FULL OPEN FOR MAX RPM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Minimize ice build-up on prop",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "ON WHEN ENGINE BEGINS LOSING POWER",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "LEAN IF USING CONTINUOUS CARB HEAT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "PREPARE TO LAND",
+              "responseText": "NEAREST AIRPORT OR OFF-AIRPORT IF RAPID",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "INCREASE (ICE INCREASES STALL SPEED)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "title",
+              "challengeText": "LANDING",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "APPROACH AT 70-80 OR MORE AS NEEDED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "DO NOT USE (COULD CAUSE TAIL STALL)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "OPEN WINDOW AND SCRAPE WINDSHIELD",
+              "responseText": "AS NEEDED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "OTHER",
+      "category": "abnormal",
+      "checklists": [
+        {
+          "name": "Starting with Ground Power",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "GROUND POWER",
+              "responseText": "CONNECT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "COMPLETE A NORMAL START",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "GROUND POWER",
+              "responseText": "DISCONNECT",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MASTER",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "EQUIPMENT MALFUNCTIONS",
+      "category": "abnormal",
+      "checklists": [
+        {
+          "name": "Alternator Failure (Over or Under-Volt)",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTERNATOR",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTERNATOR",
+              "responseText": "ON (AFTER A FEW SECONDS)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTERNATOR",
+              "responseText": "OFF IF PROBLEM CONTINUES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "NON-ESSENTIAL ELECTRICAL EQUIPMENT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "LAND AS SOON AS PRACTICAL",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Erroneous Pitot-Static Instrument Indications",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "PITOT HEAT",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTERNATE STATIC",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Or break VSI glass if inop/not installed",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "AIRSPEED",
+              "responseText": "ASSUME READS SLOW, ADD SAFETY MARGIN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "ALTITUDE",
+              "responseText": "READS HIGH, ADD MARGIN TO APPROACH MINS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Landing with Flat Main Tire",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "CHOOSE A RUNWAY",
+              "responseText": "ZERO CROSSWIND OR FROM GOOD TIRE SIDE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "COMPLETE A NORMAL APPROACH",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TOUCHDOWN",
+              "responseText": "LAND ON GOOD MAIN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Hold weight off bad side as long as possible with ailerons",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "APPLY RUDDER AND ASYMMETRIC BRAKING",
+              "responseText": "AS NECESSARY FOR CENTERLINE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Landing with Flat Nose Tire",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "COMPLETE A NORMAL APPROACH",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "TOUCHDOWN",
+              "responseText": "LAND ON MAINS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Hold weight off nose almost as long as possible with elevator",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Gently lower nose onto runway and cushion impact with remaining back elevator before full nose up stop is encountered",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "name": "Throttle Stuck at Full Open",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "NAVIGATE TO LONGEST AVAILABLE RUNWAY",
+              "responseText": "WITHIN ~20 MINUTES",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "MIXTURE",
+              "responseText": "PULL SLOWLY UNTIL RPM BEGINS TO REDUCE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Experiment to become familiar with the narrow range where mixture controls RPM",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "COMPLETE A NORMAL APPROACH AND LANDING",
+              "responseText": "USE MIXTURE TO CONTROL RPM",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "caution",
+              "challengeText": "Do not kill engine until landing is assured and all other options have been exhausted",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "LANDINGS",
+      "category": "abnormal",
+      "checklists": [
+        {
+          "name": "Go-Around",
+          "items": [
+            {
+              "type": "challenge_response",
+              "challengeText": "THROTTLE",
+              "responseText": "FULL OPEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "CARB HEAT",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "FLAPS",
+              "responseText": "RETRACT TO 25° IMMEDIATELY",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "note",
+              "challengeText": "Then slowly retract once positive rate of climb established",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "type": "challenge_response",
+              "challengeText": "GPS",
+              "responseText": "ACTIVATE MA IF APPLICABLE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "aircraftRegistration": "",
+    "makeModel": "Piper Cherokee / Archer / Warrior",
+    "copyright": ""
+  }
+}

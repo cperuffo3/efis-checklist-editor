@@ -1,0 +1,410 @@
+{
+  "$schema_notes": [
+    "EFIS Checklist Editor internal JSON format. Use this as a template for LLM conversion from PDF checklists.",
+    "",
+    "CONVENTIONS:",
+    "- challengeText: Use sentence case (capitalize first word only), NOT Title Case. E.g. 'Fuel pump' not 'Fuel Pump'",
+    "- responseText: Use ALL CAPS. E.g. 'SET', 'OFF', 'CHECKED & SET'",
+    "- title items: challengeText in ALL CAPS. E.g. 'CABIN', 'SECURE ENGINE'",
+    "- challenge_response items: Always indent 0 unless nested under a title section",
+    "- Only notes, warnings, and cautions should use indent 1+ (to annotate a preceding item)",
+    "- Title sections with sub-items: Set collapsible: true, put sub-items at indent 1",
+    "- Items with no response (action items like 'Declare an emergency'): Use challenge_response with empty responseText, NOT challenge_only",
+    "- Group names: Use exactly 'Normal', 'Emergency', or 'Abnormal'",
+    "- Group categories: Must match lowercase group name: 'normal', 'emergency', 'abnormal'",
+    "- ID prefixes: Use short checklist-specific prefix (e.g. 'pf-' for Preflight, 'bs-' for Before Start)",
+    "- Checklist names: Match the PDF heading exactly as written",
+    "- metadata.makeModel: Use the aircraft type from the PDF title/header",
+    "- metadata.aircraftRegistration: Leave empty unless specified in the PDF"
+  ],
+  "id": "unique-file-id",
+  "name": "Aircraft Type Checklists",
+  "format": "json",
+  "groups": [
+    {
+      "id": "group-normal",
+      "name": "Normal",
+      "category": "normal",
+      "checklists": [
+        {
+          "id": "cl-preflight",
+          "name": "Preflight",
+          "items": [
+            {
+              "id": "pf-001",
+              "type": "challenge_response",
+              "challengeText": "Wx brief",
+              "responseText": "OBTAINED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "pf-002",
+              "type": "challenge_response",
+              "challengeText": "Control lock",
+              "responseText": "REMOVED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "pf-003",
+              "type": "challenge_response",
+              "challengeText": "Oil",
+              "responseText": "6-8 QUARTS",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "pf-004",
+              "type": "challenge_response",
+              "challengeText": "Passenger briefing",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "id": "cl-before-start",
+          "name": "Before Start",
+          "items": [
+            {
+              "id": "bs-001",
+              "type": "challenge_response",
+              "challengeText": "Seat track/back",
+              "responseText": "LOCKED",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "bs-002",
+              "type": "challenge_response",
+              "challengeText": "Mixture",
+              "responseText": "FULL RICH",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "bs-003",
+              "type": "title",
+              "challengeText": "CLEAR PROP",
+              "responseText": "",
+              "indent": 0,
+              "centered": true,
+              "collapsible": false
+            },
+            {
+              "id": "bs-004",
+              "type": "challenge_response",
+              "challengeText": "Mags",
+              "responseText": "START (8 SEC. MAX)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "bs-005",
+              "type": "note",
+              "challengeText": "Flooded start: start full lean and throttle full open then reverse when engine starts to fire",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "id": "cl-taxi-runup",
+          "name": "Taxi & Runup",
+          "items": [
+            {
+              "id": "tr-001",
+              "type": "title",
+              "challengeText": "TAXI",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "id": "tr-002",
+              "type": "challenge_response",
+              "challengeText": "Local area",
+              "responseText": "SAFE",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "tr-003",
+              "type": "challenge_response",
+              "challengeText": "Brakes",
+              "responseText": "CHECKED IMMEDIATELY",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "tr-004",
+              "type": "title",
+              "challengeText": "RUNUP",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "id": "tr-005",
+              "type": "challenge_response",
+              "challengeText": "Mags",
+              "responseText": "CHECK L & R",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "tr-006",
+              "type": "note",
+              "challengeText": "175 max drop, 50 differential",
+              "responseText": "",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "group-emergency",
+      "name": "Emergency",
+      "category": "emergency",
+      "checklists": [
+        {
+          "id": "cl-engine-failure-flight",
+          "name": "Engine Failure in Flight",
+          "items": [
+            {
+              "id": "ef-001",
+              "type": "challenge_response",
+              "challengeText": "Airspeed",
+              "responseText": "BEST GLIDE VG 70-76",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "ef-002",
+              "type": "challenge_response",
+              "challengeText": "Best place to land",
+              "responseText": "CHOOSE ONE",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "ef-003",
+              "type": "title",
+              "challengeText": "ATTEMPT RESTART (TIME PERMITTING)",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "id": "ef-004",
+              "type": "challenge_response",
+              "challengeText": "Fuel pump",
+              "responseText": "ON",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "ef-005",
+              "type": "challenge_response",
+              "challengeText": "Mixture",
+              "responseText": "RICH",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "ef-006",
+              "type": "challenge_response",
+              "challengeText": "Declare an emergency",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "ef-007",
+              "type": "note",
+              "challengeText": "Continue to next appropriate checklist if no restart",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "id": "cl-emergency-landing",
+          "name": "Emergency Landing Without Engine Power",
+          "items": [
+            {
+              "id": "el-001",
+              "type": "challenge_response",
+              "challengeText": "Airspeed",
+              "responseText": "HOLD BEST GLIDE VG 70-76",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "el-002",
+              "type": "title",
+              "challengeText": "SECURE ENGINE",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "id": "el-003",
+              "type": "challenge_response",
+              "challengeText": "Mixture",
+              "responseText": "CUTOFF",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "el-004",
+              "type": "challenge_response",
+              "challengeText": "Mags",
+              "responseText": "OFF",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "el-005",
+              "type": "challenge_response",
+              "challengeText": "Door",
+              "responseText": "OPEN",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "group-abnormal",
+      "name": "Abnormal",
+      "category": "abnormal",
+      "checklists": [
+        {
+          "id": "cl-alternator-failure",
+          "name": "Alternator Failure (Over or Under-Volt)",
+          "items": [
+            {
+              "id": "af-001",
+              "type": "challenge_response",
+              "challengeText": "Alternator",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "af-002",
+              "type": "challenge_response",
+              "challengeText": "Alternator",
+              "responseText": "ON (AFTER A FEW SECONDS)",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "af-003",
+              "type": "challenge_response",
+              "challengeText": "Non-essential electrical equipment",
+              "responseText": "OFF",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "af-004",
+              "type": "challenge_response",
+              "challengeText": "Land as soon as practical",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        },
+        {
+          "id": "cl-inadvertent-icing",
+          "name": "Inadvertent Icing Conditions",
+          "items": [
+            {
+              "id": "ic-001",
+              "type": "challenge_response",
+              "challengeText": "Pitot heat",
+              "responseText": "ON",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "ic-002",
+              "type": "title",
+              "challengeText": "LANDING",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": true
+            },
+            {
+              "id": "ic-003",
+              "type": "challenge_response",
+              "challengeText": "Flaps",
+              "responseText": "DO NOT USE (COULD CAUSE TAIL STALL)",
+              "indent": 1,
+              "centered": false,
+              "collapsible": false
+            },
+            {
+              "id": "ic-004",
+              "type": "caution",
+              "challengeText": "Do not kill engine until landing is assured and all other options have been exhausted",
+              "responseText": "",
+              "indent": 0,
+              "centered": false,
+              "collapsible": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "aircraftRegistration": "",
+    "makeModel": "Piper Cherokee / Archer / Warrior",
+    "copyright": ""
+  },
+  "lastModified": 0,
+  "dirty": false
+}

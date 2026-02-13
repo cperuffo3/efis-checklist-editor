@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -50,82 +51,145 @@
 }
 
 .dark {
-  /* Page gradient background - dark mode */
-  --gradient-page: linear-gradient(
-    136deg,
-    oklch(0.18 0.02 250) 0%,
-    oklch(0.16 0.02 280) 50%,
-    oklch(0.17 0.02 320) 100%
-  );
-
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.87 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
+  /* shadcn/ui base tokens */
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --card: #161b22;
+  --card-foreground: #e6edf3;
+  --popover: #1c2333;
+  --popover-foreground: #e6edf3;
+  --primary: #e6edf3;
+  --primary-foreground: #0d1117;
+  --secondary: #21283b;
+  --secondary-foreground: #e6edf3;
+  --muted: #21283b;
+  --muted-foreground: #8b949e;
+  --accent: #21283b;
+  --accent-foreground: #e6edf3;
+  --destructive: #f85149;
+  --border: #30363d;
+  --input: #30363d;
+  --ring: #58a6ff;
+  --chart-1: #58a6ff;
+  --chart-2: #3fb950;
+  --chart-3: #a371f7;
+  --chart-4: #d29922;
+  --chart-5: #f85149;
   --teal: #6a939b;
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar: #161b22;
+  --sidebar-foreground: #e6edf3;
+  --sidebar-primary: #58a6ff;
+  --sidebar-primary-foreground: #e6edf3;
+  --sidebar-accent: #21283b;
+  --sidebar-accent-foreground: #e6edf3;
+  --sidebar-border: #30363d;
+  --sidebar-ring: #58a6ff;
+
+  /* EFIS backgrounds */
+  --bg-base: #0d1117;
+  --bg-base-deepest: #010409;
+  --bg-surface: #161b22;
+  --bg-elevated: #1c2333;
+  --bg-overlay: #21283b;
+  --bg-hover: #292e3e;
+  --bg-active: #2d3548;
+
+  /* EFIS borders */
+  --border-dark: #1b1f27;
+  --border-light: #3a4250;
+
+  /* EFIS text */
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #5a6370;
+
+  /* EFIS accent colors */
+  --efis-accent: #58a6ff;
+  --efis-accent-dim: #1f3a5f;
+  --efis-accent-hover: #79c0ff;
+  --efis-green: #3fb950;
+  --efis-green-dim: #1a3a2a;
+  --efis-yellow: #d29922;
+  --efis-yellow-dim: #3d2e00;
+  --efis-red: #f85149;
+  --efis-red-dim: #3d1418;
+  --efis-orange: #db6d28;
+  --efis-purple: #a371f7;
+  --efis-cyan: #39d2c0;
 }
 
 @theme inline {
+  /* Fonts */
   --font-sans: "Inter Variable", sans-serif;
-  --color-teal: var(--teal);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
+  --font-mono: "JetBrains Mono Variable", monospace;
+
+  /* shadcn/ui base color mappings */
   --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-teal: var(--teal);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* EFIS background scale — bg-base, bg-surface, bg-elevated, etc. */
+  --color-bg-base: var(--bg-base);
+  --color-bg-base-deepest: var(--bg-base-deepest);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-overlay: var(--bg-overlay);
+  --color-bg-hover: var(--bg-hover);
+  --color-bg-active: var(--bg-active);
+
+  /* EFIS borders */
+  --color-border-dark: var(--border-dark);
+  --color-border-light: var(--border-light);
+
+  /* EFIS text */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  /* EFIS accent colors */
+  --color-efis-accent: var(--efis-accent);
+  --color-efis-accent-dim: var(--efis-accent-dim);
+  --color-efis-accent-hover: var(--efis-accent-hover);
+  --color-efis-green: var(--efis-green);
+  --color-efis-green-dim: var(--efis-green-dim);
+  --color-efis-yellow: var(--efis-yellow);
+  --color-efis-yellow-dim: var(--efis-yellow-dim);
+  --color-efis-red: var(--efis-red);
+  --color-efis-red-dim: var(--efis-red-dim);
+  --color-efis-orange: var(--efis-orange);
+  --color-efis-purple: var(--efis-purple);
+  --color-efis-cyan: var(--efis-cyan);
+
+  /* Radius scale */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -140,7 +204,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground overflow-hidden font-sans antialiased;
+    @apply bg-background text-foreground overflow-hidden font-sans text-[13px] antialiased select-none;
   }
   html {
     @apply font-sans;
@@ -148,6 +212,14 @@
 
   .draglayer {
     -webkit-app-region: drag;
+  }
+
+  /* Override Radix ScrollArea viewport's internal wrapper that uses
+     display:table (which expands to fit content width). We want
+     content constrained to the viewport width instead. */
+  [data-slot="scroll-area-viewport"] > div {
+    display: block !important;
+    min-width: 0 !important;
   }
 
   /* Cursor pointer for all interactive elements */
@@ -199,5 +271,29 @@
   [disabled],
   [data-disabled] {
     cursor: not-allowed;
+  }
+
+  /* Custom scrollbar styling for dark theme */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 3px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--border-light);
   }
 }

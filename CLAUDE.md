@@ -1,109 +1,142 @@
-# CLAUDE.md
+# EFIS Checklist Editor
 
-This file provides quick guidance to Claude Code when working with this repository.
+A native desktop application for creating, editing, importing, and exporting aircraft checklist files used by EFIS (Electronic Flight Instrument System) avionics. Think "VS Code for aircraft checklists" — a dark-themed, IDE-style three-panel layout with keyboard-driven editing, drag-and-drop reordering, and multi-format support (Garmin ACE, JSON, PDF for MVP).
 
-> **For comprehensive documentation**, see [.context/STARTER_GUIDE.md](.context/STARTER_GUIDE.md) which covers architecture, patterns, and step-by-step instructions for all common tasks.
+> Full specs: @.context/PROJECT_BRIEF.md | @.context/UI_UX_SPEC.md | @.context/IMPLEMENTATION_PLAN.md
+> Architecture deep-dive: @.context/STARTER_GUIDE.md
 
-## Quick Reference
+## Tech Stack
 
-### Commands
+| Layer       | Technology                         | Purpose                                         |
+| ----------- | ---------------------------------- | ----------------------------------------------- |
+| Runtime     | Electron 39                        | Desktop shell with native OS integration        |
+| Build       | electron-vite 5 + Vite 7           | Unified build for main/preload/renderer         |
+| Packaging   | electron-builder 26                | ASAR, Electron Fuses, multi-platform installers |
+| UI          | React 19 + TypeScript 5.x (strict) | Component UI with React Compiler (babel plugin) |
+| Styling     | Tailwind CSS 4 + shadcn/ui         | Utility-first CSS, 21+ pre-built components     |
+| Routing     | TanStack Router (file-based)       | Type-safe routes with auto code-splitting       |
+| IPC         | oRPC (over MessagePort)            | Type-safe RPC between main ↔ renderer           |
+| State       | Zustand (planned)                  | Lightweight store with undo/redo                |
+| Drag & Drop | @dnd-kit (planned)                 | Sortable items and checklists                   |
+| Updates     | electron-updater                   | GitHub Releases auto-updates (private repo)     |
+
+## Quick Start
 
 ```bash
-# Development
-pnpm run dev                # Run app in dev mode (hot reload)
-pnpm run start              # Alias for dev
+# Prerequisites: Node.js 20+, pnpm
+pnpm install
 
-# Build
-pnpm run build              # Build for production
+# Development (hot reload on http://localhost:5173)
+pnpm run dev
 
-# Code Quality
-pnpm run lint               # ESLint check and fix
-pnpm run format             # Prettier format
+# Build for production
+pnpm run build
 
-# Package & Distribute
-pnpm run package            # Package without creating installer
-pnpm run make               # Create distributable installers
-pnpm run make:win           # Windows only (WiX MSI)
-pnpm run make:mac           # macOS only (ZIP)
-pnpm run make:linux         # Linux only (DEB, RPM)
+# Lint & format
+pnpm run lint         # ESLint check + auto-fix
+pnpm run format       # Prettier format
 
-# Release
-pnpm run release            # Interactive version bump + changelog
-pnpm run release:patch      # Bump patch version (0.1.0 → 0.1.1)
+# Package & distribute
+pnpm run package      # Build + package (no installer)
+pnpm run make:win     # Windows NSIS installer
+pnpm run make:mac     # macOS ZIP (x64 + arm64)
+pnpm run make:linux   # Linux DEB + RPM
 
 # Utilities
-pnpm run init-project       # Project setup wizard
-pnpm run generate-icons     # Generate icons from assets/icons/icon.svg
-pnpm run bump-shadcn-components  # Update shadcn/ui components
+pnpm run generate-icons           # Generate icons from assets/icons/icon.svg
+pnpm run bump-shadcn-components   # Update shadcn/ui components
+pnpm run release                  # Interactive version bump + changelog
 ```
 
-### Tech Stack
-
-| Layer     | Technology                            |
-| --------- | ------------------------------------- |
-| Framework | Electron 39 + electron-vite           |
-| Build     | Vite 7 (via electron-vite)            |
-| Packaging | electron-builder                      |
-| UI        | React 19 + TypeScript 5.9             |
-| Styling   | Tailwind CSS 4 + shadcn/ui            |
-| Routing   | TanStack Router (file-based)          |
-| IPC       | oRPC (type-safe RPC over MessagePort) |
-| Updates   | electron-updater (GitHub Releases)    |
-| Env Vars  | dotenv (.env files)                   |
-
-### Styling Rules
-
-**ALWAYS use Tailwind CSS classes for all styling. NEVER use:**
-
-- Inline styles (`style={{ }}`)
-- Custom CSS files or `<style>` tags
-- Hardcoded color values (hex, rgb, hsl)
-- CSS-in-JS solutions
-
-**Use Tailwind's design system:**
-
-- Colors: `bg-primary`, `text-muted-foreground`, `border-border`, etc.
-- Spacing: `p-4`, `mt-2`, `gap-3`, etc.
-- Typography: `text-sm`, `font-medium`, etc.
-- Use CSS variables from the theme via Tailwind classes (e.g., `bg-background`, `text-foreground`)
-
-### Architecture
+## Project Structure
 
 ```
-Main Process (src/main.ts)
-    ↕ oRPC over MessagePort
-Renderer Process (src/App.tsx)
-    ↕ contextBridge
-Preload Script (src/preload.ts)
+src/
+├── main.ts                        # Electron main process entry point
+├── preload.ts                     # Preload script (contextBridge, MessagePort forwarding)
+├── renderer.ts                    # Renderer entry (imports App)
+├── App.tsx                        # React root (ThemeProvider → Router → Toaster)
+├── actions/                       # Renderer-side IPC wrapper functions
+│   ├── app.ts, shell.ts, theme.ts, window.ts
+├── components/
+│   ├── home/                      # Welcome page components (barrel: index.ts)
+│   ├── shared/                    # Shared components (barrel: index.ts)
+│   │   ├── drag-window-region.tsx # Custom frameless title bar
+│   │   ├── external-link.tsx
+│   │   └── update-notification.tsx
+│   └── ui/                        # shadcn/ui (21+ components)
+├── constants/index.ts             # IPC channels, localStorage keys
+├── ipc/                           # IPC system (main process)
+│   ├── context.ts                 # IPCContext (mainWindow ref)
+│   ├── handler.ts                 # oRPC RPCHandler setup
+│   ├── manager.ts                 # IPCManager (renderer-side oRPC client)
+│   ├── router.ts                  # Aggregated router {theme, window, app, shell, updater}
+│   └── <domain>/                  # Per-domain: handlers.ts, schemas.ts, index.ts
+├── layouts/base-layout.tsx        # Root layout (title bar + content + footer)
+├── routes/                        # TanStack Router file-based routes
+│   ├── __root.tsx                 # Root route (wraps BaseLayout + Outlet)
+│   └── index.tsx                  # Welcome/home page
+├── routeTree.gen.ts               # Auto-generated route tree (DO NOT EDIT)
+├── styles/global.css              # Tailwind imports, CSS variables, base styles
+├── types/                         # TypeScript type definitions
+└── utils/
+    ├── cn.ts                      # clsx + tailwind-merge utility
+    └── routes.ts                  # TanStack Router instance (memory history)
 ```
 
-### Key Directories
+## Architecture
 
-| Path                 | Purpose                                           |
-| -------------------- | ------------------------------------------------- |
-| `src/ipc/`           | IPC handlers (theme, window, app, shell, updater) |
-| `src/actions/`       | Renderer-side IPC wrapper functions               |
-| `src/routes/`        | TanStack Router pages (file-based)                |
-| `src/components/ui/` | shadcn/ui components (21+ included)               |
-| `src/layouts/`       | Layout components (BaseLayout with title bar)     |
-| `.context/`          | AI assistant documentation                        |
-| `.env.example`       | Environment variable template                     |
+```
+┌─────────────────────────────────────────────────┐
+│                MAIN PROCESS                      │
+│  src/main.ts — lifecycle, window, auto-update    │
+│  src/ipc/*/handlers.ts — domain logic            │
+│  src/ipc/handler.ts — RPCHandler (oRPC server)   │
+└────────────────────┬────────────────────────────┘
+                     │ MessagePort (oRPC)
+┌────────────────────┴────────────────────────────┐
+│               PRELOAD SCRIPT                     │
+│  src/preload.ts — forwards MessagePort,          │
+│  exposes updateAPI via contextBridge             │
+└────────────────────┬────────────────────────────┘
+                     │ contextBridge
+┌────────────────────┴────────────────────────────┐
+│             RENDERER PROCESS                     │
+│  src/App.tsx — React root                        │
+│  src/ipc/manager.ts — IPCManager (oRPC client)   │
+│  src/actions/*.ts — typed IPC wrappers           │
+│  src/routes/*.tsx — pages                        │
+│  src/components/ — UI components                 │
+└─────────────────────────────────────────────────┘
+```
 
-### IPC Pattern
+### IPC Pattern (oRPC)
+
+Every IPC domain follows this pattern:
 
 ```typescript
-// 1. Handler (src/ipc/<domain>/handlers.ts)
-export const myHandler = os.input(z.object({ name: z.string() }))
-  .handler(({ input }) => { /* main process code */ });
+// 1. Schema — src/ipc/<domain>/schemas.ts
+import z from "zod";
+export const myInputSchema = z.object({ name: z.string() });
 
-// 2. Add to router (src/ipc/router.ts)
-export const router = { ..., myDomain };
+// 2. Handler — src/ipc/<domain>/handlers.ts
+import { os } from "@orpc/server";
+import { myInputSchema } from "./schemas";
+export const myHandler = os.input(myInputSchema).handler(({ input }) => {
+  /* main process code */
+});
 
-// 3. Action wrapper (src/actions/<domain>.ts)
-export const myAction = (name: string) => ipc.client.myDomain.myHandler({ name });
+// 3. Barrel — src/ipc/<domain>/index.ts
+export const myDomain = { myHandler };
 
-// 4. Use in component
-await myAction("value");
+// 4. Router — src/ipc/router.ts (add domain)
+export const router = { ...existing, myDomain };
+
+// 5. Action — src/actions/<domain>.ts (renderer wrapper)
+import { ipc } from "@/ipc/manager";
+export function myAction(name: string) {
+  return ipc.client.myDomain.myHandler({ name });
+}
 ```
 
 ### Adding Routes
@@ -114,64 +147,146 @@ Create `src/routes/<name>.tsx`:
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/<name>")({
-  component: () => <div>My Page</div>,
+  component: MyPage,
 });
+
+function MyPage() {
+  return <div>My Page</div>;
+}
 ```
 
-### Path Alias
+The router uses **memory history** (not browser history) for Electron. Route tree auto-generates to `src/routeTree.gen.ts` — never edit manually.
 
-`@/*` → `./src/*`
+## Development Guidelines
+
+### Styling Rules (Critical)
+
+**ALWAYS use Tailwind CSS classes. NEVER use:**
+
+- Inline styles (`style={{ }}`)
+- Custom CSS files or `<style>` tags
+- Hardcoded color values (hex, rgb, hsl, oklch)
+- CSS-in-JS solutions
+
+Use design system tokens via Tailwind: `bg-background`, `text-foreground`, `border-border`, `bg-primary`, `text-muted-foreground`. Use `cn()` from `@/utils/cn` for conditional classes.
+
+### Theme System
+
+All theming in `src/styles/global.css`:
+
+- CSS variables in `:root` (light) and `.dark` (dark) — colors use **OKLCH**
+- Mapped to Tailwind via `@theme inline` block
+- No `tailwind.config` file — Tailwind 4 CSS-first configuration
+- Font: Inter Variable (`@fontsource-variable/inter`)
+
+### File Naming
+
+| Category         | Convention        | Examples                                     |
+| ---------------- | ----------------- | -------------------------------------------- |
+| Components       | kebab-case `.tsx` | `drag-window-region.tsx`, `hero-section.tsx` |
+| IPC/Action files | kebab-case `.ts`  | `handlers.ts`, `schemas.ts`, `theme.ts`      |
+| Route files      | kebab-case `.tsx` | `index.tsx`, `__root.tsx`                    |
+| Barrel exports   | `index.ts`        | `src/components/home/index.ts`               |
+
+### Code Naming
+
+| Identifier       | Convention                  | Example                                     |
+| ---------------- | --------------------------- | ------------------------------------------- |
+| Components       | PascalCase named export     | `export function HeroSection()`             |
+| Layouts          | PascalCase default export   | `export default function BaseLayout()`      |
+| Functions        | camelCase                   | `handleTestToast()`, `syncWithLocalTheme()` |
+| Variables        | camelCase                   | `const mainWindow`, `let isDarkMode`        |
+| Constants        | SCREAMING_SNAKE in objects  | `IPC_CHANNELS.START_ORPC_SERVER`            |
+| Types/Interfaces | PascalCase                  | `interface DragWindowRegionProps`           |
+| IPC handlers     | camelCase const             | `export const getCurrentThemeMode`          |
+| Zod schemas      | camelCase + `Schema` suffix | `openExternalLinkInputSchema`               |
+
+### Import Order
 
 ```typescript
-import { Button } from "@/components/ui/button";
+// 1. External packages
+import { os } from "@orpc/server";
+import z from "zod";
+// 2. Internal absolute (@/ alias)
 import { ipc } from "@/ipc/manager";
+import { Button } from "@/components/ui/button";
+// 3. Relative imports
+import { myInputSchema } from "./schemas";
+// 4. Types (with type keyword)
+import type { UpdateInfo } from "./ipc/updater/types";
 ```
 
-### Build Configuration
+Path alias: `@/*` maps to `./src/*` (in tsconfig.json and electron.vite.config.ts).
 
-The project uses **electron-vite** for building with a unified [electron.vite.config.ts](electron.vite.config.ts) configuration that handles:
+### Component Patterns
 
-- Main process bundling
-- Preload script bundling
-- Renderer process bundling (React, TanStack Router, Tailwind)
+- Barrel exports via `index.ts` for component groups
+- Use shadcn/ui components from `@/components/ui/*` as building blocks
+- Shared components: `src/components/shared/`
+- Feature components: `src/components/<feature>/`
+- Props interfaces named `<Component>Props`, defined inline above component
 
-Packaging is handled by **electron-builder** with configuration in [package.json](package.json:30-58) and [electron-builder.yml](electron-builder.yml):
+### Formatting
+
+- **Prettier**: double quotes, trailing commas, 2-space indent, semicolons, tailwind class sorting
+- **ESLint**: flat config with TypeScript, React, React Hooks, `tailwind-canonical-classes`
+- Run `pnpm run lint` and `pnpm run format` before committing
+
+## Environment Variables
+
+| Variable                    | Required               | Description                             |
+| --------------------------- | ---------------------- | --------------------------------------- |
+| `GITHUB_TOKEN` / `GH_TOKEN` | For releases & updates | GitHub PAT (Contents R/W, Releases R/W) |
+
+See @.env.example for template. Production uses bundled `update-config.json`.
+
+## Build & Packaging
+
+**electron-vite** config (@electron.vite.config.ts) builds three targets:
+
+- Main process → `dist/main/`
+- Preload script → `dist/preload/`
+- Renderer (React) → `dist/renderer/`
+- Vite plugins: TanStack Router, Tailwind CSS, React with React Compiler
+
+**electron-builder** config (@electron-builder.yml):
 
 - ASAR packaging with integrity validation
 - Electron Fuses for security hardening
-- Platform-specific targets: WiX (Windows), ZIP (macOS), DEB/RPM (Linux)
-- Private GitHub repository auto-updates
+- Windows: NSIS installer (not WiX/Squirrel)
+- macOS: ZIP (x64 + arm64)
+- Linux: DEB + RPM
+- Auto-updates from GitHub Releases
 
-### Auto-Updates & Private Repos
+## MVP Scope
 
-This starter supports auto-updates from **private GitHub repositories**:
+The editor is being built in 15 phases (see @.context/IMPLEMENTATION_PLAN.md):
 
-1. **Set repository to private** in `package.json`:
+**In scope**: Garmin ACE (.ace) + JSON import/export, PDF export, dark theme only, Zustand state with undo/redo, @dnd-kit drag-and-drop, command palette (Ctrl+K), keyboard shortcuts, 4-panel IDE layout (files sidebar, checklist tree, editor, properties panel)
 
-   ```json
-   "build": {
-     "publish": {
-       "provider": "github",
-       "owner": "your-username",
-       "repo": "your-repo",
-       "private": true
-     }
-   }
-   ```
+**Out of scope for MVP**: Light theme, cloud sync, AFS/Dynon/ForeFlight/GRT/Garmin Pilot format parsers
 
-2. **Create GitHub token** (Fine-grained PAT):
-   - Permissions: Contents (Read/Write), Metadata (Read-only)
-   - Add to `.env`: `GITHUB_TOKEN=github_pat_...` or `GH_TOKEN=github_pat_...` (both supported)
+## Skill Usage Guide
 
-3. **How it works**:
-   - Dev: Reads `GITHUB_TOKEN` or `GH_TOKEN` from `.env`
-   - Production: Uses bundled `update-config.json` (created by CI)
+When working on tasks involving these technologies, invoke the corresponding skill:
 
-4. **Windows installer**: Uses WiX (not Squirrel) for better icon support and single update mechanism
-
-## Documentation
-
-- **[.context/STARTER_GUIDE.md](.context/STARTER_GUIDE.md)** - Comprehensive guide with examples
-- **[.context/PROJECT_BRIEF.md](.context/PROJECT_BRIEF.md)** - Project specification template
-- **[.context/UI_UX_SPEC.md](.context/UI_UX_SPEC.md)** - Design specification template
-- **[.context/IMPLEMENTATION_PLAN.md](.context/IMPLEMENTATION_PLAN.md)** - Development roadmap template
+| Skill           | Invoke When                                                        |
+| --------------- | ------------------------------------------------------------------ |
+| tailwind        | Applies Tailwind CSS 4 utility classes and theme tokens            |
+| electron        | Configures Electron app shell, main process, and IPC communication |
+| typescript      | Enforces TypeScript strict mode and type safety throughout         |
+| frontend-design | Designs IDE-style dark theme UI with Tailwind CSS and shadcn/ui    |
+| react           | Manages React 19 components, hooks, and functional patterns        |
+| zustand         | Manages application state with Zustand store and undo/redo         |
+| tanstack-router | Implements file-based routing with TanStack Router                 |
+| dnd-kit         | Implements drag-and-drop reordering for items and checklists       |
+| zod             | Validates IPC handler inputs and schemas with Zod                  |
+| vite            | Configures Vite build system for main, preload, and renderer       |
+| shadcn-ui       | Builds component library using shadcn/ui primitives                |
+| orpc            | Implements type-safe RPC communication via oRPC MessagePort        |
+| sonner          | Displays toast notifications for user feedback                     |
+| prettier        | Formats code with double quotes and trailing commas                |
+| pdfkit          | Generates PDF exports of checklist files                           |
+| fast-xml-parser | Parses and generates Garmin ACE XML checklist format               |
+| lucide-react    | Provides icon library for UI components                            |
+| eslint          | Enforces code quality with flat config and Tailwind rules          |

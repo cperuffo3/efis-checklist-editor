@@ -1,13 +1,93 @@
 # EFIS Checklist Editor
 
-A desktop application for creating and editing EFIS checklists for various general aviation use cases including ForeFlight, Garmin, AFS, GRT, and PDF
+A native desktop application for creating, editing, importing, and exporting aircraft checklist files used by modern EFIS (Electronic Flight Instrument System) avionics. Think of it as "VS Code for aircraft checklists."
+
+This project is inspired by and builds upon the excellent web-based [EFIS Editor](https://github.com/rdamazio/efis-editor) by Rodrigo Damazio, reimagined as a native desktop app with an IDE-style interface, drag-and-drop reordering, keyboard-driven editing, and direct file system access.
+
+## Features
+
+- **Multi-format support** — Import and export checklists across different avionics file formats
+- **IDE-style layout** — Three-panel interface with file sidebar, checklist tree, and item editor
+- **Drag-and-drop** — Reorder checklist items, checklists, and groups with intuitive drag-and-drop
+- **Keyboard-driven** — Full keyboard navigation and editing shortcuts
+- **Rich item types** — Challenge/Response, Challenge Only, Title, Note, Warning, Caution
+- **Item formatting** — Indent levels (0-3), centering, collapsible parent items
+- **Metadata editing** — Aircraft registration, make/model, manufacturer, copyright
+- **Command palette** — Quick search across checklists and items (Ctrl+K)
+- **Undo/Redo** — Full undo/redo history for all editing operations
+- **Autosave** — Working state automatically persisted
+- **PDF export** — Generate printable paper backup checklists
+- **Dark theme** — GitHub-dark inspired interface
+
+## Supported File Formats
+
+### Import & Export
+
+| Format                       | Extension | Description                               |
+| ---------------------------- | --------- | ----------------------------------------- |
+| Garmin G3X / G3X Touch / GTN | `.ace`    | XML-based Garmin checklist format         |
+| JSON                         | `.json`   | The editor's own internal lossless format |
+
+### Export Only
+
+| Format | Extension | Description                                      |
+| ------ | --------- | ------------------------------------------------ |
+| PDF    | `.pdf`    | Printable paper backup with selectable page size |
+
+### Planned (Post-MVP)
+
+| Format                | Extension       | Description                                   |
+| --------------------- | --------------- | --------------------------------------------- |
+| Garmin Pilot          | `.gplt`         | Unencrypted Garmin Pilot format               |
+| AFS / Dynon SkyView   | `.txt` / `.afd` | Plain-text format with formatting conventions |
+| ForeFlight (Jeppesen) | `.fmd`          | Jeppesen ForeFlight Mobile format             |
+| GRT (Grand Rapids)    | `.txt`          | Plain-text format with live data tokens       |
+
+### Feature Support by Format
+
+Different checklist file formats support different subsets of all the features in the editor:
+
+| **Feature**                | AFS/Dynon          | ForeFlight         | Garmin (G3X/GTN)   | Garmin Pilot       | GRT                | PDF                |
+| -------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+| Checklist groups           | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Checklist group categories | :x:                | :white_check_mark: | :x:                | :white_check_mark: | :x:                | :white_check_mark: |
+| Item types                 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Indentation                | :white_check_mark: | :x:                | :white_check_mark: | :x:                | :white_check_mark: | :white_check_mark: |
+| Centering                  | :white_check_mark: | :x:                | :white_check_mark: | :x:                | :white_check_mark: | :white_check_mark: |
+| Default checklist/group    | :x:                | :x:                | :white_check_mark: | :x:                | :x:                | :x:                |
+| Checklist metadata         | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                | :white_check_mark: | :white_check_mark: |
+| Live data                  | :x:                | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :x:                |
+| Completion actions         | :x:                | :x:                | :x:                | :white_check_mark: | :x:                | :x:                |
+
+Internally, files are stored in the editor's own JSON format, so it is possible to import a file in one format and export it in another.
+
+## Disclaimer
+
+> [!IMPORTANT]
+> This is not your usual disclaimer — read it carefully.
+
+> [!CAUTION]
+> Failure to follow proper procedures can result in serious injury or death.
+
+Use of files generated by this application on your avionics is **at your own risk**. We make no guarantee that the output will be correct or safe to use. Approach using these files with the same care that you would any flight testing activity — we recommend thoroughly testing them before use during actual operations, including:
+
+- Checking them with the manufacturer's recommended apps where available
+- Thoroughly testing on the ground before flight
+- Having paper copies of your checklists as backup
+- Any other precautions you would take when using an avionics configuration that is **not supported** or documented by your avionics manufacturer
+
+We take no responsibility if generated files cause avionics issues, and we take no responsibility for the actual contents of your checklists or guarantee that the contents you enter will be accurately reflected on your EFIS. Likewise, we make no guarantee that generated printable files will be correct, complete, or safe to use as paper backups.
+
+**Experimental aircraft use only** — use for certificated aircraft is not authorized.
+
+The authors of this app have no association or relationship with the manufacturers of the avionics with which these files may be used, and its use is not supported by or endorsed by any of those companies.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 20+
-- pnpm
+- [Node.js](https://nodejs.org/) 20+
+- [pnpm](https://pnpm.io/)
 
 ### Installation
 
@@ -18,31 +98,47 @@ pnpm install
 ### Development
 
 ```bash
-pnpm run start
+pnpm run dev
 ```
 
 ### Build
 
 ```bash
-pnpm run package
+pnpm run build
 ```
 
-### Create Distributable
+### Package
 
 ```bash
+# Package without installer
+pnpm run package
+
+# Create distributable installers
 pnpm run make
+
+# Platform-specific
+pnpm run make:win    # Windows (WiX MSI)
+pnpm run make:mac    # macOS (ZIP)
+pnpm run make:linux  # Linux (DEB, RPM)
 ```
 
 ## Tech Stack
 
-- [Electron](https://www.electronjs.org) - Desktop app framework
-- [React](https://reactjs.org) - UI library
-- [Vite](https://vitejs.dev) - Build tool
-- [Tailwind CSS](https://tailwindcss.com) - Styling
-- [shadcn/ui](https://ui.shadcn.com) - UI components
-- [TanStack Router](https://tanstack.com/router) - Routing
-- [oRPC](https://orpc.unnoq.com) - IPC communication
+| Layer     | Technology                                                                     |
+| --------- | ------------------------------------------------------------------------------ |
+| Framework | [Electron](https://www.electronjs.org) 39 + electron-vite                      |
+| Build     | [Vite](https://vitejs.dev) 7                                                   |
+| Packaging | electron-builder                                                               |
+| UI        | [React](https://react.dev) 19 + TypeScript 5.9                                 |
+| Styling   | [Tailwind CSS](https://tailwindcss.com) 4 + [shadcn/ui](https://ui.shadcn.com) |
+| Routing   | [TanStack Router](https://tanstack.com/router) (file-based)                    |
+| IPC       | [oRPC](https://orpc.unnoq.com) (type-safe RPC over MessagePort)                |
+| Updates   | electron-updater (GitHub Releases)                                             |
+
+## Acknowledgments
+
+This project is inspired by and based on [rdamazio/efis-editor](https://github.com/rdamazio/efis-editor), a web-based EFIS file format editor by Rodrigo Damazio. The data model, format specifications, and general approach to checklist editing are informed by that project. This desktop version aims to provide a native experience with improved UX for the same use cases.
 
 ## License
 
-MIT
+This project is available under the MIT License. See [LICENSE](./LICENSE) for details.

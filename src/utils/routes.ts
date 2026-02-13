@@ -11,6 +11,6 @@ export const router = createRouter({
   defaultPendingMinMs: 0,
   routeTree,
   history: createMemoryHistory({
-    initialEntries: ["/"],
+    initialEntries: ["/editor"],
   }),
 });

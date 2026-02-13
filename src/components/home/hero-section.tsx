@@ -7,7 +7,9 @@ export function HeroSection() {
         <img src="assets/icons/icon.svg" alt="App Icon" className="size-12" />
       </div>
       <div className="text-center">
-        <h1 className="text-2xl font-bold tracking-tight">EFIS Checklist Editor</h1>
+        <h1 className="text-2xl font-bold tracking-tight">
+          EFIS Checklist Editor
+        </h1>
         <p className="text-muted-foreground mt-1 text-sm">
           A modern Electron app with React, Tailwind CSS 4, and shadcn/ui
         </p>
