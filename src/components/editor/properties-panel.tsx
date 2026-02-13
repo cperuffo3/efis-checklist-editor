@@ -289,10 +289,7 @@ interface FormatCompatibilitySectionProps {
 }
 
 function FormatCompatibilitySection({ item }: FormatCompatibilitySectionProps) {
-  const supported = useMemo(
-    () => getFormatSupport(item),
-    [item.type, item.indent, item.centered],
-  );
+  const supported = useMemo(() => getFormatSupport(item), [item]);
 
   return (
     <div className="border-border border-b px-3.5 py-3">

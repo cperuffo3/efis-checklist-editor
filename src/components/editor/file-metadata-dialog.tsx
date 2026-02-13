@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -22,6 +22,20 @@ export function FileMetadataDialog({
   open,
   onOpenChange,
 }: FileMetadataDialogProps) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-sm">
+        <DialogHeader>
+          <DialogTitle>File Metadata</DialogTitle>
+          <DialogDescription>Edit metadata for {file.name}</DialogDescription>
+        </DialogHeader>
+        {open && <FileMetadataForm file={file} />}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function FileMetadataForm({ file }: { file: ChecklistFile }) {
   const updateFileMetadata = useChecklistStore((s) => s.updateFileMetadata);
 
   const [registration, setRegistration] = useState(
@@ -29,15 +43,6 @@ export function FileMetadataDialog({
   );
   const [makeModel, setMakeModel] = useState(file.metadata.makeModel);
   const [copyright, setCopyright] = useState(file.metadata.copyright);
-
-  // Sync local state when the dialog opens or file changes
-  useEffect(() => {
-    if (open) {
-      setRegistration(file.metadata.aircraftRegistration);
-      setMakeModel(file.metadata.makeModel);
-      setCopyright(file.metadata.copyright);
-    }
-  }, [open, file.metadata]);
 
   const handleRegistrationChange = useCallback(
     (value: string) => {
@@ -64,51 +69,42 @@ export function FileMetadataDialog({
   );
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-sm">
-        <DialogHeader>
-          <DialogTitle>File Metadata</DialogTitle>
-          <DialogDescription>Edit metadata for {file.name}</DialogDescription>
-        </DialogHeader>
+    <div className="space-y-3">
+      <div>
+        <Label className="text-muted-foreground mb-1 block text-[11px]">
+          Aircraft Registration
+        </Label>
+        <Input
+          value={registration}
+          onChange={(e) => handleRegistrationChange(e.target.value)}
+          placeholder="N12345"
+          className="text-xs"
+        />
+      </div>
 
-        <div className="space-y-3">
-          <div>
-            <Label className="text-muted-foreground mb-1 block text-[11px]">
-              Aircraft Registration
-            </Label>
-            <Input
-              value={registration}
-              onChange={(e) => handleRegistrationChange(e.target.value)}
-              placeholder="N12345"
-              className="text-xs"
-            />
-          </div>
+      <div>
+        <Label className="text-muted-foreground mb-1 block text-[11px]">
+          Aircraft Make & Model
+        </Label>
+        <Input
+          value={makeModel}
+          onChange={(e) => handleMakeModelChange(e.target.value)}
+          placeholder="Cessna 172S Skyhawk"
+          className="text-xs"
+        />
+      </div>
 
-          <div>
-            <Label className="text-muted-foreground mb-1 block text-[11px]">
-              Aircraft Make & Model
-            </Label>
-            <Input
-              value={makeModel}
-              onChange={(e) => handleMakeModelChange(e.target.value)}
-              placeholder="Cessna 172S Skyhawk"
-              className="text-xs"
-            />
-          </div>
-
-          <div>
-            <Label className="text-muted-foreground mb-1 block text-[11px]">
-              Copyright
-            </Label>
-            <Input
-              value={copyright}
-              onChange={(e) => handleCopyrightChange(e.target.value)}
-              placeholder="Optional copyright notice"
-              className="text-xs"
-            />
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+      <div>
+        <Label className="text-muted-foreground mb-1 block text-[11px]">
+          Copyright
+        </Label>
+        <Input
+          value={copyright}
+          onChange={(e) => handleCopyrightChange(e.target.value)}
+          placeholder="Optional copyright notice"
+          className="text-xs"
+        />
+      </div>
+    </div>
   );
 }
