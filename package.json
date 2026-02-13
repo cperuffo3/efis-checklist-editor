@@ -1,7 +1,7 @@
 {
   "name": "efis-checklist-editor",
   "productName": "EFIS Checklist Editor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A desktop application for creating and editing EFIS checklists for various general aviation use cases including ForeFlight, Garmin, AFS, GRT, and PDF",
   "main": "dist/main/index.js",
   "private": true,
