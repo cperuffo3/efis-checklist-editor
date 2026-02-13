@@ -1,4 +1,4 @@
-import type { ChecklistFile } from "@/types";
+import type { ChecklistFile } from "@/types/checklist";
 import type { FormatParser } from "../types";
 import { generatePdf } from "./generator";
 

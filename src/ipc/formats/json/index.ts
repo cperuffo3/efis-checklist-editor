@@ -1,5 +1,9 @@
-import { ChecklistFormat, ChecklistItemType } from "@/types";
-import type { ChecklistFile } from "@/types";
+import {
+  ChecklistFormat,
+  ChecklistGroupCategory,
+  ChecklistItemType,
+} from "@/types/checklist";
+import type { ChecklistFile } from "@/types/checklist";
 import type { FormatParser, ParsedChecklistFile } from "../types";
 
 /** Map rdamazio/efis-editor item type strings to our internal enum */
@@ -59,7 +63,9 @@ function parseRdamazioFormat(
       ? raw.groups.map((group: Record<string, unknown>) => ({
           id: crypto.randomUUID(),
           name: (group.title as string) ?? "",
-          category: (group.category as string) ?? "normal",
+          category:
+            (group.category as ChecklistGroupCategory) ??
+            ChecklistGroupCategory.Normal,
           checklists: Array.isArray(group.checklists)
             ? group.checklists.map((checklist: Record<string, unknown>) => ({
                 id: crypto.randomUUID(),
@@ -119,7 +125,9 @@ export const jsonParser: FormatParser = {
         ? raw.groups.map((group: Record<string, unknown>) => ({
             id: crypto.randomUUID(),
             name: (group.name as string) ?? "",
-            category: (group.category as string) ?? "normal",
+            category:
+              (group.category as ChecklistGroupCategory) ??
+              ChecklistGroupCategory.Normal,
             checklists: Array.isArray(group.checklists)
               ? group.checklists.map((checklist: Record<string, unknown>) => ({
                   id: crypto.randomUUID(),
@@ -127,7 +135,9 @@ export const jsonParser: FormatParser = {
                   items: Array.isArray(checklist.items)
                     ? checklist.items.map((item: Record<string, unknown>) => ({
                         id: crypto.randomUUID(),
-                        type: (item.type as string) ?? "challenge_response",
+                        type:
+                          (item.type as ChecklistItemType) ??
+                          ChecklistItemType.ChallengeResponse,
                         challengeText: (item.challengeText as string) ?? "",
                         responseText: (item.responseText as string) ?? "",
                         indent: (item.indent as number) ?? 0,

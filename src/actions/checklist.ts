@@ -1,5 +1,5 @@
 import { ipc } from "@/ipc/manager";
-import type { ChecklistFile } from "@/types";
+import type { ChecklistFile } from "@/types/checklist";
 
 export function readChecklistFile(filePath: string) {
   return ipc.client.checklist.readChecklistFile({ filePath });

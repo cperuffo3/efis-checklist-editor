@@ -3,8 +3,8 @@ import { app, dialog } from "electron";
 import { readFile, writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
-import { ChecklistFormat, ChecklistItemType } from "@/types";
-import type { Checklist, ChecklistFile } from "@/types";
+import { ChecklistFormat, ChecklistItemType } from "@/types/checklist";
+import type { Checklist, ChecklistFile } from "@/types/checklist";
 import { ipcContext } from "@/ipc/context";
 import {
   detectFormat,
@@ -260,7 +260,8 @@ function parseItem(item: Record<string, unknown>): Checklist["items"][number] {
     type: isRdamazio
       ? (RDAMAZIO_TYPE_MAP[item.type as string] ??
         ChecklistItemType.ChallengeResponse)
-      : ((item.type as string) ?? "challenge_response"),
+      : ((item.type as ChecklistItemType) ??
+        ChecklistItemType.ChallengeResponse),
     challengeText: ((item.prompt ?? item.challengeText) as string) ?? "",
     responseText: ((item.expectation ?? item.responseText) as string) ?? "",
     indent: Math.min((item.indent as number) ?? 0, 3) as 0 | 1 | 2 | 3,

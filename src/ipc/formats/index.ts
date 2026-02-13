@@ -1,4 +1,4 @@
-import { ChecklistFormat } from "@/types";
+import { ChecklistFormat } from "@/types/checklist";
 import { aceParser } from "./ace";
 import { foreflightParser } from "./foreflight";
 import { garminPilotParser } from "./garmin-pilot";

@@ -1,4 +1,4 @@
-import type { ChecklistFile } from "@/types";
+import type { ChecklistFile } from "@/types/checklist";
 
 /**
  * Data shape returned by parsers — excludes runtime-only fields

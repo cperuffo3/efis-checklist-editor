@@ -1,4 +1,4 @@
-import type { ChecklistFile } from "@/types";
+import type { ChecklistFile } from "@/types/checklist";
 import type { FormatParser, ParsedChecklistFile } from "../types";
 import { readGarminPilot } from "./reader";
 import { writeGarminPilot } from "./writer";

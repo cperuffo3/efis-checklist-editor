@@ -1,4 +1,4 @@
-import crc32 from "buffer-crc32";
+import * as crc32 from "buffer-crc32";
 import { ChecklistItemType } from "@/types/checklist";
 import type { ChecklistFile } from "@/types/checklist";
 import * as C from "./constants";

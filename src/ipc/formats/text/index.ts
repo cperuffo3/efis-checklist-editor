@@ -1,4 +1,4 @@
-import { ChecklistFormat } from "@/types";
+import { ChecklistFormat } from "@/types/checklist";
 import type { FormatParser } from "../types";
 import { DYNON_OPTIONS } from "./dynon";
 import { GRT_OPTIONS } from "./grt";
